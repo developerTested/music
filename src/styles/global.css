@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .custom-h {
+        height: calc(100% - 2.5rem);
+    }
+
+    .grid-cols-auto {
+        grid-template-columns: auto 1fr;
+    }
+
+    .grid-cols-full {
+        grid-column: 1 / -1;
+    }
+}
