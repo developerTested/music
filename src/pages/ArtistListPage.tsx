@@ -3,16 +3,6 @@ import { formatNumbers } from "@/utilities/helper"
 import { MdBookmark, MdHeadphones } from "react-icons/md"
 import { Link } from "react-router-dom"
 
-type ArtistType = {
-    name: string,
-    fullName: string,
-    country: string,
-    followers: number,
-    listening: number,
-    rank: number,
-    image: string,
-}
-
 export function ArtistListPage() {
 
     return (

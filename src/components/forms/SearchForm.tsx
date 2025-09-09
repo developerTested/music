@@ -1,4 +1,4 @@
-import { FormEvent, useRef } from 'react';
+import { useRef } from 'react';
 import { Input } from './Input'
 import { CiSearch } from 'react-icons/ci';
 import { Button } from './Button';
@@ -7,12 +7,6 @@ import { Form } from 'react-router-dom';
 export function SearchForm() {
 
     const searchRef = useRef(null);
-
-    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-
-
-    }
 
     return (
         <div className='relative w-full xl:w-500 m-auto group border bg-slate-100 dark:bg-input focus-within:bg-white focus-within:shadow-lg border-white dark:border-input dark:text-white rounded-full'>

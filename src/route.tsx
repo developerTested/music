@@ -1,15 +1,21 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { MasterLayout } from "./layouts";
 import { ArtistListPage, ArtistPage, ErrorPage, HomePage, LoginPage, SearchPage } from "./pages";
+import { LandingPage } from "./pages/LandingPage";
 
 const router = createBrowserRouter([
+    {
+        path: "/",
+        element: <LandingPage />,
+        errorElement: <ErrorPage />,
+    },
     {
         path: "/",
         element: <MasterLayout />,
         errorElement: <ErrorPage />,
         children: [
             {
-                path: "/",
+                path: "/home",
                 element: <HomePage />,
             },
             {

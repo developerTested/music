@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react"
-
 import { SongItemCard } from "@/components/cards";
 import { ArtistType, TrackType } from "@/types";
 import { useParams } from "react-router-dom";
-import axios from "axios";
+import { MUSIC_API } from "@/utilities/api";
 
 export function ArtistPage() {
 
@@ -27,7 +26,7 @@ export function ArtistPage() {
         }
         
         try {
-            const response = await axios.get(`https://thingproxy.freeboard.io/fetch/https://api.deezer.com/artist/${artistId}`)
+            const response = await MUSIC_API.get(`/artist/${artistId}`)
 
             setArtist(response.data)
         } catch (error) {
@@ -50,7 +49,7 @@ export function ArtistPage() {
         }
 
         try {
-            const { data: response } = await axios.get(`https://thingproxy.freeboard.io/fetch/https://api.deezer.com/artist/${artistId}/top?limit=50`)
+            const { data: response } = await MUSIC_API.get(`/artist/${artistId}/top?limit=50`)
 
             setSongList(response.data)
         } catch (error) {

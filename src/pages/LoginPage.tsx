@@ -1,7 +1,6 @@
 import React from 'react'
-import { Form, Link, useNavigate } from 'react-router-dom'
+import { Form, Link } from 'react-router-dom'
 import { Button, Input } from '@/components/forms'
-import { useAppDispatch, useAppSelector } from '@/hooks';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { SubmitHandler, useForm } from "react-hook-form"
 import { LoginSchema, LoginType } from '@/schema/authSchema';
@@ -10,12 +9,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 
 export function LoginPage() {
     const [passwordShow, setPasswordShow] = React.useState(false);
-    const [error, setError] = React.useState('');
-    const [loading, setLoading] = React.useState(false);
-
-    const dispatch = useAppDispatch();
-    const navigate = useNavigate()
-
 
     const { handleSubmit, register, formState: { errors } } = useForm<LoginType>({
         resolver: zodResolver(LoginSchema),
@@ -30,10 +23,6 @@ export function LoginPage() {
 
         console.log(data);
 
-
-        setLoading(true);
-
-        setLoading(false);
     }
 
     return (

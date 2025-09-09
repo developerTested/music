@@ -3,7 +3,7 @@ import { SearchItemCard } from '@/components/cards';
 import { useSearchParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import { setQueue } from '@/redux/slices/playerSlice';
-import axios from 'axios';
+import { MUSIC_API } from '@/utilities/api';
 
 export function SearchPage() {
 
@@ -25,13 +25,14 @@ export function SearchPage() {
 
         setLoading(true)
 
-        const url = `https://thingproxy.freeboard.io/fetch/https://api.deezer.com/search?limit=25&q=` + encodeURIComponent(q);
+        const url = `/search?limit=25&q=` + encodeURIComponent(q);
 
         try {
-            const { data: response } = await axios.get(url);
+            const { data: response } = await MUSIC_API.get(url);
             setResults(response.data);
 
         } catch (error) {
+            console.log(error);
 
         }
 
