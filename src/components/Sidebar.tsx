@@ -1,6 +1,10 @@
 import { MdAlbum, MdExplore, MdHome, MdMusicNote, MdPeople } from "react-icons/md"
 import { IoStatsChartSharp } from "react-icons/io5";
 import { NavLink } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "@/hooks";
+import { twMerge } from "tailwind-merge";
+import { useCallback, useEffect, useRef } from "react";
+import { setMobileMenu } from "@/redux/slices/appSlice";
 
 const menuItems = [
     {
@@ -37,6 +41,69 @@ const menuItems = [
 
 export function Sidebar() {
 
+    const { miniMenu, mobileMenu } = useAppSelector(state => state.app);
+
+    const dispatch = useAppDispatch();
+
+    const sidebarRef = useRef<HTMLDivElement>(null);
+
+
+    const handleClickOutside = useCallback((e: MouseEvent) => {
+        if (sidebarRef.current && !sidebarRef.current.contains(e.target as Node)) {
+            dispatch(setMobileMenu(false))
+        }
+    }, [sidebarRef, dispatch]);
+
+
+    useEffect(() => {
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [handleClickOutside]);
+
+
+    return (
+        <div
+            ref={sidebarRef}
+            className={twMerge(`
+    fixed top-14 left-0 h-full text-sm transition-all duration-300
+    z-50
+    w-60
+        `)}
+
+        >
+            <div className="menu-container flex flex-col pr-2 py-2">
+                {menuItems.map((menu, i) =>
+                    <NavLink
+                        key={i}
+                        to={menu.url}
+                        className={({ isActive }) => `
+                    flex
+                    items-center
+                    gap-4
+                    px-4
+                    py-2.5
+                    ${isActive ? "bg-zinc-800 dark:bg-zinc-900 text-white font-semibold" : ""}
+                    hover:bg-zinc-800
+                    dark:hover:bg-input
+                    hover:text-white
+                    rounded-r-full
+                    `}
+                    >
+                        <div className="icon">
+                            {menu.icon}
+                        </div>
+
+                        <div className={`${miniMenu ? "block" : 'block'}`}>
+                            {menu.title}
+                        </div>
+                    </NavLink>)}
+
+            </div>
+        </div>
+    );
+
     return (
         <div className="
         sidebar
@@ -52,7 +119,7 @@ export function Sidebar() {
         custom-h
         ">
             <div className="menu-container flex flex-col pr-2 py-2">
-                {menuItems.map((menu, i) =>
+                {/* {menuItems.map((menu, i) =>
                     <NavLink
                         key={i}
                         to={menu.url}
@@ -75,7 +142,7 @@ export function Sidebar() {
                         <div className="block">
                             {menu.title}
                         </div>
-                    </NavLink>)}
+                    </NavLink>)} */}
 
             </div>
         </div>

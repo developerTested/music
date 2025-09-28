@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import  { useEffect, useState } from 'react'
 import ArtistForm from './ArtistForm';
 import type { ArtistType } from '@/types/artist.type';
 import artistService from '@/service/ArtistService';
@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom';
 import { AxiosError } from 'axios';
 import Alert from '@/components/Alert';
 
-export default function ArtistProfile() {
+export function ArtistProfile() {
 
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
@@ -30,7 +30,7 @@ export default function ArtistProfile() {
       try {
         const response = await artistService.getArtistById(artistId);
 
-        setArtist(response.data);
+        setArtist(response);
 
       } catch (error) {
         if (error instanceof AxiosError) {

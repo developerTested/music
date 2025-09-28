@@ -1,9 +1,12 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { AdminLayout, MasterLayout } from "./layouts";
-import { ArtistListPage, ArtistPage, ErrorPage, HomePage, LoginPage, SearchPage } from "./pages";
 import DashBoard from "./pages/admincp/DashBoard";
-import ManageArtists from "./pages/admincp/artists/ManageArtists";
-import ArtistProfile from "./pages/admincp/artists/ArtistProfile";
+import { ErrorPage, ExplorePage, HomePage, ProtectedPage, SearchPage, TopChartPage } from "./pages";
+import { ArtistProfile, ManageArtists } from "./pages/admincp/artists";
+import { ArtistListPage, ArtistPage } from "./pages/artists";
+import { SongListPage, SongPage } from "./pages/songs";
+import { AlbumListPage, AlbumPage } from "./pages/albums";
+import { LoginPage, SignupPage } from "./pages/auth";
 
 const router = createBrowserRouter([
     {
@@ -21,6 +24,14 @@ const router = createBrowserRouter([
                 element: <HomePage />,
             },
             {
+                path: "/explore",
+                element: <ExplorePage />,
+            },
+            {
+                path: "/top-charts",
+                element: <TopChartPage />,
+            },
+            {
                 path: "/search",
                 element: <SearchPage />,
             },
@@ -33,20 +44,40 @@ const router = createBrowserRouter([
                 element: <ArtistPage />,
             },
             {
+                path: "/songs",
+                element: <SongListPage />,
+            },
+            {
                 path: "/song/:songId",
-                element: <ArtistPage />,
+                element: <SongPage />,
+            },
+            {
+                path: "/albums",
+                element: <AlbumListPage />,
+            },
+            {
+                path: "/album/:albumId",
+                element: <AlbumPage />,
             }
         ]
     },
     {
-        path: "/login",
+        path: "/",
         errorElement: <ErrorPage />,
-        element: <LoginPage />,
-    },
-    {
-        path: "/register",
-        errorElement: <ErrorPage />,
-        element: <LoginPage />,
+        element: <ProtectedPage role="guest" />,
+        children: [
+            {
+                path: "/login",
+                errorElement: <ErrorPage />,
+                element: <LoginPage />,
+            },
+            {
+                path: "/register",
+                errorElement: <ErrorPage />,
+                element: <SignupPage />,
+            },
+
+        ]
     },
     {
         path: "/admincp",

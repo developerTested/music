@@ -2,12 +2,16 @@ import { useState, useEffect, useRef } from "react";
 import { useAppDispatch, useAppSelector } from ".";
 import { setCurrentTrack, setIsPlaying, setQueueNext, setQueuePrev, togglePlaying } from "../redux/slices/playerSlice";
 import type { TrackType } from "@/types";
+import { toast } from "react-toastify";
+import songService from "../service/SongService";
 
 export function usePlayer() {
     const audioElement = useRef<HTMLAudioElement>(null)
 
     const dispatch = useAppDispatch();
     const { isPlaying, currentTrack, queue } = useAppSelector(state => state.player)
+
+    const [youtubeVideoSrc, setYoutubeVideoSrc] = useState<any>(null);
 
     const [playerState, setPlayerState] = useState({
         isEnded: false,
@@ -97,16 +101,16 @@ export function usePlayer() {
                     ...prev,
                     isPlaying: false,
                 }));
-                
+
                 dispatch(setIsPlaying(false))
 
                 if (currentTrack && queue.length) {
                     const currentIndex = queue.findIndex((a: TrackType) => a.id === currentTrack.id);
-                    
+
                     if (currentIndex === -1) {
                         return;
                     }
-                    
+
                     if (queue && queue[currentIndex + 1]) {
                         dispatch(setCurrentTrack(queue[currentIndex + 1]))
                         dispatch(togglePlaying())
@@ -186,12 +190,12 @@ export function usePlayer() {
      */
 
     useEffect(() => {
+
         if (currentTrack && audioElement.current) {
 
             setPlayerState((prev) => ({ ...prev, progress: 0 }))
 
             const audio = audioElement.current;
-            audio.src = currentTrack.preview;
             audio.load();
             audio.play()
         }
@@ -199,7 +203,7 @@ export function usePlayer() {
         return () => {
             audioElement.current?.pause();
         };
-    }, [currentTrack, audioElement]);
+    }, [currentTrack, audioElement, youtubeVideoSrc]);
 
     useEffect(() => {
         if (!audioElement.current) {
@@ -213,9 +217,9 @@ export function usePlayer() {
         }
 
         return () => {
-            audioElement.current?.pause();
+            audioElement?.current?.pause();
         };
-    }, [isPlaying, audioElement.current]);
+    }, [isPlaying]);
 
 
     useEffect(() => {

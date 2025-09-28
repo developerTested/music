@@ -23,21 +23,51 @@ type InputProps = VariantProps<typeof inputStyles> & React.ComponentProps<"input
     fullWidth?: boolean,
 }
 
-export const Input = forwardRef(({ type = "text", className, variant, size, startIcon, endIcon, fullWidth, ...props }: InputProps, ref: Ref<HTMLInputElement>) => {
+export const Input = forwardRef(
+    (
+        {
+            type = "text",
+            className,
+            variant,
+            size,
+            startIcon,
+            endIcon,
+            fullWidth = true,
+            ...props
+        }: InputProps,
+        ref: Ref<HTMLInputElement>
+    ) => {
 
-    const subClass = fullWidth ? "w-full" : ""
+        return <div className="relative flex items-center flex-1">
 
-    return <div className="relative flex items-center flex-1">
 
-        {startIcon ? <div className="flex items-center justify-center text-inherit p-2"> {startIcon} </div> : undefined}
+            <input
+                {...props}
+                type={type}
+                ref={ref}
+                className={twMerge(
+                    inputStyles({ variant, size }),
+                    startIcon && "pl-10",
+                    endIcon && "pr-10",
+                    fullWidth && "w-full",
+                    className
+                )}
+            />
 
-        <input
-            {...props}
-            type={type}
-            ref={ref}
-            className={twMerge(inputStyles({ variant, size }), className, subClass)}
-        />
 
-        {endIcon ? <div className="flex items-center justify-center text-inherit p-2"> {endIcon} </div> : undefined}
-    </div>
-})
+            {/* Start Icon */}
+            {startIcon && (
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none">
+                    {startIcon}
+                </span>
+            )}
+
+            {/* End Icon */}
+            {endIcon && (
+                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none">
+                    {endIcon}
+                </span>
+            )}
+
+        </div>
+    })

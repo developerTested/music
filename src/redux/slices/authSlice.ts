@@ -1,12 +1,19 @@
+import type { UserType } from "@/types/auth.type";
 import { createSlice } from "@reduxjs/toolkit";
 
 type initialStateType = {
-    darkMode: boolean,
+    loggedIn: boolean,
+    user: UserType | null,
+    accessToken: string | null,
+    refreshToken: string | null,
 
 }
 
 const initialState: initialStateType = {
-    darkMode: false,
+    loggedIn: false,
+    user: null,
+    accessToken: null,
+    refreshToken: null,
 }
 
 const authSlice = createSlice({
@@ -14,11 +21,20 @@ const authSlice = createSlice({
     initialState,
     reducers: {
         setUser: (state, action) => {
-            state.darkMode = action.payload;
+
+            const { user, accessToken, refreshToken } = action.payload;
+    
+            state.loggedIn = true;
+            state.user = user;
+            state.accessToken = accessToken;
+            state.refreshToken = refreshToken;
         },
 
-        resetUser: (state, action) => {
-            state.darkMode = action.payload;
+        resetUser: (state) => {
+            state.loggedIn = false;
+            state.user = null;
+            state.accessToken = null;
+            state.refreshToken = null;
         },
     }
 })

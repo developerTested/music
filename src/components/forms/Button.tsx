@@ -3,17 +3,17 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { twMerge } from "tailwind-merge";
 import { cn } from "@/utilities/helper";
 
-const buttonStyles = cva(["text-center", "rounded", "cursor-pointer"], {
+const buttonStyles = cva(["text-center", "rounded", "cursor-pointer", " transition duration-300"], {
     variants: {
         variant: {
-            default: ["bg-black", "text-white"],
+            default: ["bg-black hover:bg-gray-800 dark:bg-zinc-300 text-white dark:text-black"],
             primary: ["uppercase bg-white hover:bg-slate-200 dark:bg-white/20 text-black"],
-            secondary: ["uppercase", "bg-gray-200", "dark:bg-white/20"],
+            secondary: ["uppercase bg-gray-200 dark:bg-zinc-900 dark:hover:bg-zinc-800"],
             success: ["uppercase bg-success hover:bg-green-600 dark:bg-white/20 text-white"],
             danger: ["uppercase bg-red-500 hover:bg-red-600 dark:bg-white/20 text-white"],
             info: ["uppercase bg-blue-500 hover:bg-blue-600 dark:bg-white/20 text-white"],
             warning: ["uppercase bg-yellow-500 hover:bg-yellow-600 dark:bg-white/20 text-white"],
-            icon: ["bg-gray-50 hover:bg-gray-100 dark:bg-input dark:hover:bg-widget"]
+            icon: ["bg-gray-50 hover:bg-gray-100 dark:bg-zinc-800 dark:hover:bg-zinc-900 dark:hover:bg-widget"]
         },
         size: {
             default: ["px-4", "py-2", "text-center", "rounded"],
@@ -47,7 +47,7 @@ export function Button({ variant, size, disabled, className, startIcon, endIcon,
 
     const subClasses = cn(className, {
         "w-full": fullWidth,
-        "flex item-center gap-2": startIcon || endIcon
+        "flex items-center gap-2": startIcon || endIcon
     });
 
 

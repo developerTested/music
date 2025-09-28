@@ -10,6 +10,9 @@ export type ArtistType = {
         state: string,
         country: string,
     },
+    country: string,
+    verified: boolean,
+    songs?: TrackType[],
     createdAt: string,
     updatedAt: string,
 }
@@ -31,10 +34,11 @@ export type AlbumType = {
 }
 
 export type TrackType = {
+    _id: string,
     title: string,
     cover: string,
-    artist: string,
-    album?: string,
+    artist: ArtistType,
+    album?: AlbumType,
     genre?: string,
     releaseDate: string,
     duration: number,
@@ -42,4 +46,27 @@ export type TrackType = {
     youtubeVideoId?: string,
     createdAt: string,
     updatedAt: string,
+}
+
+export type PaginationType<T = unknown> = {
+    total: number,
+    perPage: string,
+    currentPage: number,
+    totalPages: number,
+    data: T,
+    hasNextPage?: boolean,
+    hasPrevPage?: boolean,
+    nextPage?: null | null,
+    prevPage?: number | null,
+}
+
+export type FilterType = {
+    page?: number,
+    genre?: string,
+    limit?: number,
+}
+
+export type GenreType = {
+    _id: string,
+    name: string,
 }

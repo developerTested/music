@@ -13,3 +13,16 @@ export const ACCEPTED_AUDIO_TYPES = [
     "audio/mp4",    // AAC
     "audio/wav",    // WAV
 ];
+
+export const genreList = [
+    "All",
+    "Pop",
+    "Rock",
+    "Hip-Hop",
+    "Jazz",
+    "Classical",
+    "Electronic",
+    "Country",
+    "Reggae",
+    "Other",
+]

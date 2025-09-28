@@ -5,7 +5,7 @@ import type { ArtistType } from "@/types/artist.type";
 import { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 
-export default function ManageArtists() {
+export function ManageArtists() {
 
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
@@ -21,7 +21,7 @@ export default function ManageArtists() {
             console.log(response);
 
 
-            setArtistList(response.data);
+            setArtistList(response);
         } catch (error) {
             if (error instanceof AxiosError) {
                 setErrorMessage(error?.message);

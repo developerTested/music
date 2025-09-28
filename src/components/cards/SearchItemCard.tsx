@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import { setCurrentTrack, setIsPlaying, togglePlaying } from '@/redux/slices/playerSlice';
-import type { TrackType } from '@/types';
 import { Button } from '../forms';
 import { MdOutlinePlaylistAdd, MdPause, MdPlayArrow } from 'react-icons/md';
 import { ImHeart } from 'react-icons/im';
+import type { TrackType } from '@/types/artist.type';
 
 type SearchItemCardProps = {
     song: TrackType,
@@ -19,7 +19,7 @@ export function SearchItemCard({ song }: SearchItemCardProps) {
 
     const handlePlay = (track: TrackType) => {
 
-        if (currentTrack?.id === track.id) {
+        if (currentTrack?._id === track._id) {
             dispatch(togglePlaying());
         } else {
             dispatch(setCurrentTrack(track))
@@ -32,8 +32,8 @@ export function SearchItemCard({ song }: SearchItemCardProps) {
     }
 
     return (
-        <div className={`flex items-start gap-2 p-2 ${currentTrack?.id === song.id && isPlaying ? "bg-slate-100 dark:bg-widget" : "bg-inherit"} rounded-lg`}>
-            <img src={song?.album?.cover_big || "http://cdn-images.dzcdn.net/images/cover/1a2ff1ad7241739d524583d6f775c379/1000x1000-000000-80-0-0.jpg"} className="size-24 shrink-0 rounded-lg" />
+        <div className={`flex items-start gap-2 p-2 ${currentTrack?._id === song._id && isPlaying ? "bg-slate-100 dark:bg-widget" : "bg-white"} rounded-lg`}>
+            <img src={song?.album?.cover || song.cover || "http://cdn-images.dzcdn.net/images/cover/1a2ff1ad7241739d524583d6f775c379/1000x1000-000000-80-0-0.jpg"} className="size-24 shrink-0 rounded-lg" />
 
             <div className="flex flex-col gap-2 w-full text-semibold">
                 <div className="block text-lg font-semibold truncate">
@@ -50,7 +50,7 @@ export function SearchItemCard({ song }: SearchItemCardProps) {
                 <div className="flex items-center gap-4">
                     <Button variant="icon" size="icon" onClick={() => handlePlay(song)}>
 
-                        {currentTrack?.id === song.id && isPlaying ?
+                        {currentTrack?._id === song._id && isPlaying ?
                             <MdPause className="size-6" /> :
                             <MdPlayArrow className="size-6" />}
                     </Button>

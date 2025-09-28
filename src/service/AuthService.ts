@@ -1,26 +1,23 @@
 import type { loginType, registerType } from "../schema/auth.schema";
 import Service from "./service";
+import type { ApiResponse, LoginResponseType } from "@/types/api";
 
 class AuthService extends Service {
 
     login = async (data: loginType) => {
-        const { data: response } = await this.post("/users/login", data);
-        return response;
+        return await this.post<ApiResponse<LoginResponseType>>("/users/login", data);
     }
 
     register = async (data: registerType) => {
-        const { data: response } = await this.post("/users/register", data);
-        return response;
+        return await this.post<ApiResponse>("/users/register", data);
     }
 
     logout = async () => {
-        const { data: response } = await this.post("/users/logout");
-        return response;
+        return await this.post<ApiResponse>("/users/logout");
     }
 
     currentUser = async () => {
-        const { data: response } = await this.post("/users/currentUser");
-        return response;
+        return await this.post<ApiResponse>("/users/currentUser");
     }
 }
 

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import { setCurrentTrack, setIsPlaying, togglePlaying } from '@/redux/slices/playerSlice';
-import type { TrackType } from '@/types';
+import type { TrackType } from '@/types/artist.type';
 import { Button } from '../forms';
 import { MdOutlinePlaylistAdd, MdPause, MdPlayArrow } from 'react-icons/md';
 import { ImHeart } from 'react-icons/im';
@@ -19,7 +19,7 @@ export function SongItemCard({ song }: SongItemCardProps) {
 
     const handlePlay = (track: TrackType) => {
 
-        if (currentTrack?.id === track.id) {
+        if (currentTrack?._id === track._id) {
             dispatch(togglePlaying());
         } else {
             dispatch(setCurrentTrack(track))
@@ -33,7 +33,7 @@ export function SongItemCard({ song }: SongItemCardProps) {
 
     return (
         <div className="flex items-center gap-2">
-            <img src={song?.album?.cover || "http://cdn-images.dzcdn.net/images/cover/1a2ff1ad7241739d524583d6f775c379/1000x1000-000000-80-0-0.jpg"} className="size-10 shrink-0 rounded-lg" />
+            <img src={song?.album?.cover || song.cover} className="size-10 shrink-0 rounded-lg" />
 
             <div className="block w-full text-semibold">
                 {song.title}

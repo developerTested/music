@@ -1,5 +1,5 @@
+import { cn } from "@/utilities/helper";
 import React from "react";
-import classNames from "classnames";
 import { twMerge } from "tailwind-merge";
 
 type props = {
@@ -20,7 +20,7 @@ export default function CircularProgressBar(props: props) {
     const circumference = 2 * Math.PI * ((size - thickness) / 2);
     const strokeDashoffset = `${(((100 - value) / 100) * circumference).toFixed(3)}px`;
 
-    const svgClass = twMerge(classNames(color, {
+    const svgClass = twMerge(cn(color, {
         '-rotate-90': true,
         'text-orange-400': remain < 30,
         'text-red-500': remain < 20,
