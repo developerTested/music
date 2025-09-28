@@ -3,7 +3,3 @@ export * from './Header';
 export * from './Logo';
 export * from './MusicPlayer';
 export * from './Sidebar';
-export * from './cards/SongItemCard';
-export * from './forms/Button';
-export * from './forms/Input';
-export * from './forms/SearchForm';

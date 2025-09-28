@@ -1,7 +1,7 @@
 import React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { twMerge } from "tailwind-merge";
-import classNames from "classnames";
+import { cn } from "@/utilities/helper";
 
 const buttonStyles = cva(["text-center", "rounded", "cursor-pointer"], {
     variants: {
@@ -45,18 +45,23 @@ type buttonType = VariantProps<typeof buttonStyles> & React.ComponentProps<"butt
 
 export function Button({ variant, size, disabled, className, startIcon, endIcon, fullWidth = false, children, ...props }: buttonType) {
 
-    const subClasses = classNames(className, {
+    const subClasses = cn(className, {
         "w-full": fullWidth,
+        "flex item-center gap-2": startIcon || endIcon
     });
+
 
     return (
         <button
             {...props}
-            className={twMerge(buttonStyles({ variant, size, disabled }), subClasses)}
+            className={twMerge(
+                buttonStyles({ variant, size, disabled }),
+                subClasses
+            )}
         >
-            {startIcon ? <div className=""> {startIcon} </div> : ''}
-            {endIcon ? <div className=""> {endIcon} </div> : ''}
-            {children}
+            {startIcon && <span className="start-icon">{startIcon}</span>}
+            <span className="button-content">{children}</span>
+            {endIcon && <span className="end-icon">{endIcon}</span>}
         </button>
     );
 };

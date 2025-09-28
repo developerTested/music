@@ -1,4 +1,4 @@
-import React, { forwardRef, Ref } from "react";
+import React, { forwardRef, type Ref } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { twMerge } from "tailwind-merge";
 
@@ -27,7 +27,7 @@ export const Input = forwardRef(({ type = "text", className, variant, size, star
 
     const subClass = fullWidth ? "w-full" : ""
 
-    return <div className="relative size-full flex items-center">
+    return <div className="relative flex items-center flex-1">
 
         {startIcon ? <div className="flex items-center justify-center text-inherit p-2"> {startIcon} </div> : undefined}
 

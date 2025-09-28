@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { TrackType } from "../../types";
+import type { TrackType } from "@/types/artist.type";
 
 type initialStateType = {
     currentTrack: TrackType | null,

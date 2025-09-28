@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useAppDispatch, useAppSelector } from ".";
 import { setCurrentTrack, setIsPlaying, setQueueNext, setQueuePrev, togglePlaying } from "../redux/slices/playerSlice";
-import { TrackType } from "@/types";
+import type { TrackType } from "@/types";
 
 export function usePlayer() {
     const audioElement = useRef<HTMLAudioElement>(null)

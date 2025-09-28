@@ -1,12 +1,11 @@
-import { useEffect, useState } from "react";
 import { MdAlbum, MdExplore, MdHome, MdMusicNote, MdPeople } from "react-icons/md"
 import { IoStatsChartSharp } from "react-icons/io5";
-import { Link, useLocation } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const menuItems = [
     {
         title: "Home",
-        url: "/",
+        url: "/home",
         icon: <MdHome className="w-6 h-6" />,
     },
     {
@@ -38,14 +37,6 @@ const menuItems = [
 
 export function Sidebar() {
 
-    const [activeMenu, setActiveMenu] = useState("/");
-
-    const location = useLocation();
-
-    useEffect(() => {
-        setActiveMenu(location.pathname)
-    }, [location]);
-
     return (
         <div className="
         sidebar
@@ -61,14 +52,30 @@ export function Sidebar() {
         custom-h
         ">
             <div className="menu-container flex flex-col pr-2 py-2">
-                {menuItems.map((menu, i) => <Link key={i} to={menu.url} className={`flex items-center gap-4 px-4 py-2.5 ${activeMenu === menu.url ? "bg-black dark:bg-input text-white" : ""} hover:bg-black dark:hover:bg-input hover:text-white rounded-r-full`}>
-                    <div className="icon">
-                        {menu.icon}
-                    </div>
-                    <div className="block">
-                        {menu.title}
-                    </div>
-                </Link>)}
+                {menuItems.map((menu, i) =>
+                    <NavLink
+                        key={i}
+                        to={menu.url}
+                        className={({ isActive }) => `
+                    flex
+                    items-center
+                    gap-4
+                    px-4
+                    py-2.5
+                    ${isActive ? "bg-black dark:bg-input text-white" : ""}
+                    hover:bg-black
+                    dark:hover:bg-input
+                    hover:text-white
+                    rounded-r-full
+                    `}
+                    >
+                        <div className="icon">
+                            {menu.icon}
+                        </div>
+                        <div className="block">
+                            {menu.title}
+                        </div>
+                    </NavLink>)}
 
             </div>
         </div>

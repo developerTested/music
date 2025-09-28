@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import { setCurrentTrack, setIsPlaying, togglePlaying } from '@/redux/slices/playerSlice';
-import { TrackType } from '@/types';
+import type { TrackType } from '@/types';
 import { Button } from '../forms';
 import { MdOutlinePlaylistAdd, MdPause, MdPlayArrow } from 'react-icons/md';
 import { ImHeart } from 'react-icons/im';

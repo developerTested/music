@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { SongItemCard } from "@/components/cards";
-import { ArtistType, TrackType } from "@/types";
+import type { ArtistType, TrackType } from "@/types";
 import { useParams } from "react-router-dom";
 import { MUSIC_API } from "@/utilities/api";
 
@@ -53,7 +53,7 @@ export function ArtistPage() {
 
             setSongList(response.data)
         } catch (error) {
-            console.log("Failed to fetch artist songs");
+            console.log("Failed to fetch artist songs", error);
 
         }
     }

@@ -4,10 +4,11 @@ import { useSearchParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import { setQueue } from '@/redux/slices/playerSlice';
 import { MUSIC_API } from '@/utilities/api';
+import type { TrackType } from '@/types';
 
 export function SearchPage() {
 
-    const [searchParams, _] = useSearchParams();
+    const [searchParams] = useSearchParams();
 
     const { currentTrack, isPlaying } = useAppSelector(state => state.player)
     const dispatch = useAppDispatch()
@@ -59,7 +60,7 @@ export function SearchPage() {
             dispatch(setQueue(results))
         }
 
-    }, [currentTrack, isPlaying, dispatch]);
+    }, [currentTrack, isPlaying, dispatch, results]);
 
     return (
         <div>
@@ -70,7 +71,7 @@ export function SearchPage() {
             </div> :
 
                 <div className="grid gap-2">
-                    {results.map((song: any) => <SearchItemCard key={song.id} song={song} />)}
+                    {results.map((song: TrackType) => <SearchItemCard key={song.id} song={song} />)}
                 </div>
             }
         </div>

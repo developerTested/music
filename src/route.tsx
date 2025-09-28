@@ -1,12 +1,14 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { MasterLayout } from "./layouts";
+import { AdminLayout, MasterLayout } from "./layouts";
 import { ArtistListPage, ArtistPage, ErrorPage, HomePage, LoginPage, SearchPage } from "./pages";
-import { LandingPage } from "./pages/LandingPage";
+import DashBoard from "./pages/admincp/DashBoard";
+import ManageArtists from "./pages/admincp/artists/ManageArtists";
+import ArtistProfile from "./pages/admincp/artists/ArtistProfile";
 
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <LandingPage />,
+        element: <MasterLayout />,
         errorElement: <ErrorPage />,
     },
     {
@@ -46,6 +48,34 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />,
         element: <LoginPage />,
     },
+    {
+        path: "/admincp",
+        errorElement: <ErrorPage />,
+        element: <AdminLayout />,
+        children: [
+            {
+                index: true,
+                path: '/admincp',
+                element: <DashBoard />,
+            },
+            {
+                path: "/admincp/artists",
+                element: <ManageArtists />,
+            },
+            {
+                path: "/admincp/artists/create",
+                element: <ArtistProfile />,
+            },
+            {
+                path: "/admincp/artists/:artistId",
+                element: <ArtistProfile />,
+            },
+            {
+                path: "/admincp/song/:songId",
+                element: <ArtistPage />,
+            }
+        ]
+    }
 ]);
 
 export default function RouteList() {

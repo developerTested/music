@@ -1,16 +1,18 @@
 import React from 'react'
+import authService from '../service/AuthService';
 import { Form, Link } from 'react-router-dom'
 import { Button, Input } from '@/components/forms'
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import { SubmitHandler, useForm } from "react-hook-form"
-import { LoginSchema, LoginType } from '@/schema/authSchema';
+import { type SubmitHandler, useForm } from "react-hook-form"
 import { Logo } from '@/components';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { toast } from 'react-toastify';
+import { LoginSchema, type loginType } from '../schema/auth.schema';
 
 export function LoginPage() {
     const [passwordShow, setPasswordShow] = React.useState(false);
 
-    const { handleSubmit, register, formState: { errors } } = useForm<LoginType>({
+    const { handleSubmit, register, formState: { errors } } = useForm<loginType>({
         resolver: zodResolver(LoginSchema),
         defaultValues: {
             email: "",
@@ -18,11 +20,13 @@ export function LoginPage() {
         }
     })
 
-    const onSubmit: SubmitHandler<LoginType> = async (data) => {
+    const onSubmit: SubmitHandler<loginType> = async (data) => {
 
-
-        console.log(data);
-
+        toast.promise(authService.login(data), {
+            pending: "Please wait...",
+            success: "Login Successful",
+            error: "Something went wrong",
+        })
     }
 
     return (
@@ -50,9 +54,9 @@ export function LoginPage() {
                             })}
                             name="email" type="email" placeholder="admin@admin.com" className={`${errors.email ? 'border-red-600' : ''}`} fullWidth />
 
-                        {errors.email ? <p className='text-red-600 text-xs my-1'>
-                           {errors.email.message}
-                        </p> : ''}
+                        {errors.email && <p className='text-red-600 text-xs my-1'>
+                            {errors.email.message}
+                        </p>}
                     </div>
 
                     <div className="relative w-full">
@@ -68,9 +72,9 @@ export function LoginPage() {
                                 {passwordShow ? <FaEye className='w-6 h-6' /> : <FaEyeSlash className='w-6 h-6' />}
                             </div>
                         </div>
-                        {errors.password ? <p className='text-red-600 text-xs my-1'>
+                        {errors.password && <p className='text-red-600 text-xs my-1'>
                             {errors.password.message}
-                        </p> : ''}
+                        </p>}
                     </div>
 
                     <div className="w-full flex items-center justify-between">
