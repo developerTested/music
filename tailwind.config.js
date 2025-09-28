@@ -31,15 +31,7 @@ export default {
 				'350': '21.875rem',
 				'500': '31.25rem'
 			},
-			colors: {
-				success: "#32A336",
-				info: "#17a2b8",
-				warning: "#ffc107",
-				danger: "#c82333",
-				midnight: '#121212',
-				widget: '#262626',
-				input: '#393939'
-			}
+			
 		},
 	},
 	plugins: [],
