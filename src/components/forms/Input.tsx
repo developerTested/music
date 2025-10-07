@@ -5,7 +5,7 @@ import { twMerge } from "tailwind-merge";
 const inputStyles = cva(["block rounded"], {
     variants: {
         variant: {
-            default: ["bg-white dark:bg-white/20 border border-gray-300 dark:border-none"]
+            default: ["bg-white dark:bg-zinc-900 border border-zinc-400 dark:border-zinc-900"]
         },
         size: {
             default: ["px-4 py-2 outline-none rounded-md"]

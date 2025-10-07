@@ -3,10 +3,10 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { twMerge } from "tailwind-merge";
 import { cn } from "@/utilities/helper";
 
-const buttonStyles = cva(["text-center", "rounded", "cursor-pointer", " transition duration-300"], {
+const buttonStyles = cva(["text-center", "rounded", "cursor-pointer"], {
     variants: {
         variant: {
-            default: ["bg-black hover:bg-gray-800 dark:bg-zinc-300 text-white dark:text-black"],
+            default: ["bg-black hover:bg-zinc-900 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-white dark:text-zinc-200"],
             primary: ["uppercase bg-white hover:bg-slate-200 dark:bg-white/20 text-black"],
             secondary: ["uppercase bg-gray-200 dark:bg-zinc-900 dark:hover:bg-zinc-800"],
             success: ["uppercase bg-success hover:bg-green-600 dark:bg-white/20 text-white"],

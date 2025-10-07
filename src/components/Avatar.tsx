@@ -4,7 +4,7 @@ import { cva } from "class-variance-authority";
 import type { VariantProps } from "class-variance-authority";
 import { getInitials } from "@/utilities/helper";
 
-const avatarStyles = cva('flex items-center justify-center bg-slate-200 shrink-0', {
+const avatarStyles = cva('flex items-center justify-center bg-zinc-200 dark:bg-zinc-800 shrink-0', {
   variants: {
     size: {
       xs: 'w-8 h-8',
