@@ -1,11 +1,11 @@
-import type { AxiosResponse } from "axios";
 import Service from "./service";
 import type { GenreType } from "@/types/artist.type";
+import type { ApiResponse } from "@/types/api";
 
 class GenreService extends Service {
 
     fetchAll = async () => {
-        return await this.get<AxiosResponse<GenreType>>("/genres");
+        return await this.get<ApiResponse<GenreType>>("/genres");
     }
 
 
