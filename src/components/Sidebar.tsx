@@ -5,6 +5,8 @@ import { useAppDispatch, useAppSelector } from "@/hooks";
 import { twMerge } from "tailwind-merge";
 import { useCallback, useEffect, useRef } from "react";
 import { setMobileMenu } from "@/redux/slices/appSlice";
+import { FaHeart } from "react-icons/fa";
+import Tooltip from "./Tooltip";
 
 const menuItems = [
     {
@@ -18,6 +20,18 @@ const menuItems = [
         icon: <MdExplore className="w-6 h-6" />,
     },
     {
+        title: "Liked Songs",
+        url: "/favorites",
+        icon: <FaHeart className="w-6 h-6" />,
+        divider: true,
+    },
+    {
+        title: "Top Charts",
+        url: "/top-charts",
+        icon: <IoStatsChartSharp className="w-6 h-6" />,
+        divider: true,
+    },
+    {
         title: "Songs",
         url: "/songs",
         icon: <MdMusicNote className="w-6 h-6" />,
@@ -26,11 +40,6 @@ const menuItems = [
         title: "Albums",
         url: "/albums",
         icon: <MdAlbum className="w-6 h-6" />,
-    },
-    {
-        title: "Top Charts",
-        url: "/top-charts",
-        icon: <IoStatsChartSharp className="w-6 h-6" />,
     },
     {
         title: "Artists",
@@ -50,7 +59,7 @@ export function Sidebar() {
 
     const handleClickOutside = useCallback((e: MouseEvent) => {
         if (sidebarRef.current && !sidebarRef.current.contains(e.target as Node)) {
-            dispatch(setMobileMenu(false))
+            dispatch(setMobileMenu())
         }
     }, [sidebarRef, dispatch]);
 
@@ -67,14 +76,25 @@ export function Sidebar() {
         <div
             ref={sidebarRef}
             className={twMerge(`
-    fixed top-14 left-0 h-full text-sm transition-all duration-300
+    fixed
+    top-0
+    left-0 
+    text-sm transition-all 
+    duration-300
     z-50
     w-60
-        `)}
+    h-full
+    pt-16
+    ${mobileMenu ? "translate-x-0" : "-translate-x-60"}
+    ${miniMenu ? 'md:w-20 translate-x-0' : "w-60"}
+    ${!mobileMenu && !miniMenu ? "lg:translate-x-0" : ""}
+    bg-inherit
+    `)}
 
         >
             <div className="menu-container flex flex-col pr-2 py-2">
-                {menuItems.map((menu, i) =>
+                {menuItems.map((menu, i) => <>
+
                     <NavLink
                         key={i}
                         to={menu.url}
@@ -89,17 +109,27 @@ export function Sidebar() {
                     dark:hover:bg-input
                     hover:text-white
                     rounded-r-full
+                    transition-all
                     `}
                     >
-                        <div className="icon">
-                            {menu.icon}
-                        </div>
 
-                        <div className={`${miniMenu ? "block" : 'block'}`}>
-                            {menu.title}
-                        </div>
-                    </NavLink>)}
+                        {miniMenu ? (
+                            <Tooltip title={menu.title} position="center-right" className="left-14">
+                                <div className="icon">{menu.icon}</div>
+                            </Tooltip>
+                        ) : (
+                            <>
+                                <div className="icon">{menu.icon}</div>
+                                <div className="text-base block whitespace-nowrap">{menu.title}</div>
+                            </>
+                        )}
 
+
+                    </NavLink>
+
+                    {menu.divider && <div className="w-full my-2 border border-zinc-100 dark:border-zinc-800"></div>}
+                </>
+                )}
             </div>
         </div>
     );

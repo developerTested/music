@@ -12,6 +12,7 @@ import authService from "@/service/AuthService";
 import type { ToastErrorType, ToastResponseType } from "@/types/api";
 import { resetUser } from "@/redux/slices/authSlice";
 import { ImExit } from "react-icons/im";
+import Tooltip from "./Tooltip";
 
 export function Header() {
 
@@ -42,19 +43,20 @@ export function Header() {
         })
     }
 
+    // All Menu
     const menuToggle = useCallback(() => {
         dispatch(setMiniMenu(false));
-        dispatch(setMobileMenu(false));
     }, [dispatch])
 
+    // Mobile Menu
     const mobileMenuToggle = useCallback(() => {
         dispatch(setMiniMenu(false));
-        dispatch(setMobileMenu(!mobileMenu));
-    }, [dispatch, mobileMenu])
+        dispatch(setMobileMenu());
+    }, [dispatch])
 
-
+    // Mini Menu
     const miniMenuToggle = useCallback(() => {
-        dispatch(setMobileMenu(false));
+        dispatch(setMobileMenu());
         dispatch(setMiniMenu(!miniMenu));
     }, [dispatch, miniMenu])
 
@@ -71,12 +73,14 @@ export function Header() {
      * Handle Menu
      */
     const handleResize = useCallback(() => {
-        if (window.innerWidth > 768 && window.innerWidth < 1280) {
-            miniMenuToggle()
+        const width = window.innerWidth;
+
+        if (width > 768 && width < 1280) {
+            if (!miniMenu) miniMenuToggle();
         } else {
-            menuToggle()
+            if (mobileMenu || miniMenu) menuToggle();
         }
-    }, [menuToggle, miniMenuToggle])
+    }, [miniMenu, mobileMenu, miniMenuToggle, menuToggle]);
 
 
 
@@ -98,42 +102,31 @@ export function Header() {
         justify-between
         z-1030 
         sticky 
-        top-0 
+        top-0
         w-full
-        px-4
+        p-2
+        backdrop-blur-md
         ">
 
             <div className="flex items-center gap-2">
-                {!mobileMenu && !miniMenu &&
-                    <Button
-                        onClick={menuToggle}
-                        variant="icon"
-                        size="icon"
-                    >
-                        <MdMenu className="size-6" />
-                    </Button>
-                }
 
-                {mobileMenu &&
-                    <Button
-                        onClick={mobileMenuToggle}
-                        variant="icon"
-                        size="icon"
-                    >
-                        <MdMenu className="size-6" />
-                    </Button>
-                }
+                <Button
+                    onClick={mobileMenuToggle}
+                    variant="icon"
+                    size="icon"
+                    className="block md:hidden mobile-menu-toggle"
+                >
+                    <MdMenu className="size-6" />
+                </Button>
 
-                {
-                    miniMenu &&
-                    <Button
-                        onClick={miniMenuToggle}
-                        variant="icon"
-                        size="icon"
-                    >
-                        <MdMenu className="size-6" />
-                    </Button>
-                }
+                <Button
+                    onClick={miniMenuToggle}
+                    variant="icon"
+                    size="icon"
+                    className="hidden sm:block mini-menu-toggle"
+                >
+                    <MdMenu className="size-6" />
+                </Button>
 
                 <Logo />
             </div>
@@ -143,9 +136,14 @@ export function Header() {
 
 
             <div className="flex items-center gap-2">
-                <Button onClick={handleThemeToggle} variant="icon" size="icon">
-                    {darkMode ? <MdLightMode className="size-6" /> : <BsMoonStarsFill className="size-6" />}
-                </Button>
+                <Tooltip
+                    position="bottom-center"
+                    title={darkMode ? "Light Mode" : "Dark Mode"}
+                >
+                    <Button onClick={handleThemeToggle} variant="icon" size="icon">
+                        {darkMode ? <MdLightMode className="size-6" /> : <BsMoonStarsFill className="size-6" />}
+                    </Button>
+                </Tooltip>
 
 
                 {user ?
