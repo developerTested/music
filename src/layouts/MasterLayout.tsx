@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 import { Footer, Header, MusicPlayer, Sidebar } from "../components";
 import { useAppSelector } from "@/hooks";
+import { twMerge } from "tailwind-merge";
 
 export function MasterLayout() {
 
@@ -20,14 +21,16 @@ export function MasterLayout() {
 
         {/* Main Content */}
         <main
-          className={`
-    flex-1 
-    p-4
-    overflow-auto 
-    transition-all 
-    duration-300
-    ${mobileMenu ? 'ml-60' : miniMenu ? 'ml-60' : 'ml-60'}
-    `}
+          className={twMerge(`
+          flex-1 
+          p-4
+          overflow-auto 
+          transition-all 
+          duration-300
+          ml-auto
+          ${mobileMenu ? 'ml-0' : ""}
+          ${miniMenu ? 'md:ml-20' : "md:ml-60"}
+    `)}
         >
           <div className="custom-h p-4">
             <Outlet />
