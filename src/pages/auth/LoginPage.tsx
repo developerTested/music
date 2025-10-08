@@ -49,20 +49,28 @@ export function LoginPage() {
     }
 
     return (
-        <div className="flex items-center justify-center w-full h-screen">
+        <div className="flex items-center justify-center w-full h-screen dark:bg-zinc-950 dark:text-slate-200">
             <div className="m-auto relative w-full px-4 lg:px-0 lg:max-w-lg">
                 <div className="text-center mb-12">
                     <Logo />
-                    <h2 className="text-3xl font-bold text-black mt-6 mb-3">Welcome Back to Melodify</h2>
-                    <p className="text-gray-600 text-base mt-2">Log in to continue your musical journey</p>
+                    <h2 className="text-3xl font-bold text-black dark:text-zinc-200 mt-6 mb-3">Welcome Back to Melodify</h2>
+                    <p className="text-gray-600 dark:text-zinc-300 text-base mt-2">Log in to continue your musical journey</p>
                 </div>
 
                 <Form onSubmit={handleSubmit(onSubmit)} className="flex flex-col items-center gap-4">
-                    <div className="relative w-full">
+                    <div className="relative w-full grid gap-2">
+                        <label
+                            htmlFor="email"
+                            className="flex items-center gap-2 text-sm font-medium select-none"
+                        >
+                            Email
+                        </label>
+
                         <Input
                             {...register("email", {
                                 required: true,
                             })}
+                            id="email"
                             name="email"
                             type="email"
                             placeholder="admin@admin.com"
@@ -75,7 +83,24 @@ export function LoginPage() {
                         </p>}
                     </div>
 
-                    <div className="relative w-full">
+                    <div className="relative w-full grid gap-2">
+
+                        <div className="flex items-center">
+                            <label
+                                htmlFor="password"
+                                className="flex items-center gap-2 text-sm font-medium select-none"
+                            >
+                                Password
+                            </label>
+
+                            <Link
+                                to="/resetPassword"
+                                className="ml-auto text-sm"
+                            >
+                                Forgot password?
+                            </Link>
+                        </div>
+
                         <div className="relative w-full">
                             <Input
                                 {...register("password", {
@@ -104,12 +129,6 @@ export function LoginPage() {
                             <input type="checkbox" name="remember" id="remember" className='mx-2' />
                             Remember me
                         </label>
-
-                        <div className="block">
-                            <Link to="/resetPassword">
-                                Forgot password?
-                            </Link>
-                        </div>
 
                     </div>
                     <Button className="w-full rounded flex items-center justify-center">
