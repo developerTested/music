@@ -15,6 +15,7 @@ const persistConfig = {
 
 const authPersistConfig = {
   key: 'auth',
+  blacklist: ["accessToken", "refreshToken"],
   storage,
 }
 

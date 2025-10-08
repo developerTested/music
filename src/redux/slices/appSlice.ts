@@ -9,7 +9,7 @@ type initialStateType = {
 const initialState: initialStateType = {
     darkMode: false,
     mobileMenu: false,
-    miniMenu: true,
+    miniMenu: false,
 }
 
 const appSlice = createSlice({
@@ -20,8 +20,8 @@ const appSlice = createSlice({
             state.darkMode = action.payload;
         },
 
-        setMobileMenu: (state, action) => {
-            state.mobileMenu = action.payload;
+        setMobileMenu: (state) => {
+            state.mobileMenu = !state.mobileMenu;
         },
 
         setMiniMenu: (state, action) => {
