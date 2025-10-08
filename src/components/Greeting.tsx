@@ -1,7 +1,10 @@
+import { useCurrentTime } from '@/hooks';
 import { useState, useEffect } from 'react';
 
 export function Greeting() {
     const [greeting, setGreeting] = useState('');
+
+    const currentTime = useCurrentTime()
 
     useEffect(() => {
         const updateGreeting = () => {
@@ -19,10 +22,13 @@ export function Greeting() {
         };
 
         updateGreeting();
-        const interval = setInterval(updateGreeting, 60000);
 
-        return () => clearInterval(interval);
+        const interval = setInterval(updateGreeting, 1000);
+
+        return () => {
+            clearInterval(interval);
+        }
     }, []);
 
-    return <h1 className="text-4xl font-bold mb-2" > {greeting} </h1>;
+    return <h1 className="text-4xl font-bold mb-2" > {greeting} {currentTime}  </h1>;
 }

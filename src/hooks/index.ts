@@ -8,3 +8,4 @@ export const useAppSelector = useSelector.withTypes<AppRootState>()
 export * from "./usePlayer"
 export * from "./useFilePreview"
 export * from "./useResponsive"
+export * from "./useCurrentTime"
