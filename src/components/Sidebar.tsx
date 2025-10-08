@@ -3,7 +3,7 @@ import { IoStatsChartSharp } from "react-icons/io5";
 import { NavLink } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@/hooks";
 import { twMerge } from "tailwind-merge";
-import { useCallback, useEffect, useRef } from "react";
+import { Fragment, useCallback, useEffect, useRef } from "react";
 import { setMobileMenu } from "@/redux/slices/appSlice";
 import { FaHeart } from "react-icons/fa";
 import Tooltip from "./Tooltip";
@@ -93,7 +93,7 @@ export function Sidebar() {
 
         >
             <div className="menu-container flex flex-col pr-2 py-2">
-                {menuItems.map((menu, i) => <>
+                {menuItems.map((menu, i) => <Fragment key={i}>
 
                     <NavLink
                         key={i}
@@ -128,7 +128,7 @@ export function Sidebar() {
                     </NavLink>
 
                     {menu.divider && <div className="w-full my-2 border border-zinc-100 dark:border-zinc-800"></div>}
-                </>
+                </Fragment>
                 )}
             </div>
         </div>
