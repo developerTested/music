@@ -6,6 +6,7 @@ import { setQueue } from '@/redux/slices/playerSlice';
 import type { TrackType } from '@/types/artist.type';
 import songService from '@/service/SongService';
 import { CiSearch } from 'react-icons/ci';
+import NoTracksFound from '@/components/NoTracksFound';
 
 export function SearchPage() {
 
@@ -68,7 +69,7 @@ export function SearchPage() {
     return (
         <div className="space-y-4">
             <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
+                <h2 className="text-2xl font-bold flex items-center gap-2">
                     <span>
                         <CiSearch className="w-6" />
                     </span>
@@ -83,7 +84,11 @@ export function SearchPage() {
             </div> :
 
                 <div className="grid gap-2">
-                    {results.map((song: TrackType) => <SearchItemCard key={song._id} song={song} />)}
+                    {
+                        Array.isArray(results) && results.length ?
+                            results.map((song: TrackType) => <SearchItemCard key={song._id} song={song} />) :
+                            <NoTracksFound />
+                    }
                 </div>
             }
         </div>

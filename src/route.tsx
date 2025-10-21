@@ -3,9 +3,10 @@ import { AdminLayout, MasterLayout } from "./layouts";
 import DashBoard from "./pages/admincp/DashBoard";
 import { ErrorPage, ExplorePage, HomePage, ProtectedPage, SearchPage, TopChartPage } from "./pages";
 import { ArtistProfile, ManageArtists } from "./pages/admincp/artists";
+import { ManageSongs, AddSongPage, EditSongPage } from "./pages/admincp/songs";
 import { ArtistListPage, ArtistPage } from "./pages/artists";
-import { SongListPage, SongPage } from "./pages/songs";
 import { AlbumListPage, AlbumPage } from "./pages/albums";
+import { LikedSongPage, SongListPage, SongPage } from "./pages/songs";
 import { LoginPage, SignupPage } from "./pages/auth";
 
 const router = createBrowserRouter([
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
             {
                 path: "/explore",
                 element: <ExplorePage />,
+            },
+            {
+                path: "/favorites",
+                element: <LikedSongPage />,
             },
             {
                 path: "/top-charts",
@@ -102,8 +107,16 @@ const router = createBrowserRouter([
                 element: <ArtistProfile />,
             },
             {
-                path: "/admincp/song/:songId",
-                element: <ArtistPage />,
+                path: "/admincp/songs",
+                element: <ManageSongs />,
+            },
+            {
+                path: "/admincp/songs/create",
+                element: <AddSongPage />,
+            },
+            {
+                path: "/admincp/songs/:songId",
+                element: <EditSongPage />,
             }
         ]
     }

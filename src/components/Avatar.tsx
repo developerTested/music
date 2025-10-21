@@ -3,8 +3,9 @@ import { twMerge } from "tailwind-merge";
 import { cva } from "class-variance-authority";
 import type { VariantProps } from "class-variance-authority";
 import { getInitials } from "@/utilities/helper";
+import { forwardRef } from "react";
 
-const avatarStyles = cva('flex items-center justify-center bg-zinc-200 dark:bg-zinc-800 shrink-0', {
+const avatarStyles = cva('flex items-center justify-center m-auto bg-zinc-200 dark:bg-zinc-800 shrink-0', {
   variants: {
     size: {
       xs: 'w-8 h-8',
@@ -31,21 +32,23 @@ export type AvatarProps = VariantProps<typeof avatarStyles> & {
   imageClassName?: string,
 }
 
-export default function Avatar({
+export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(({
   src,
   alt,
   size,
   rounded = true,
   className,
   imageClassName,
-}: AvatarProps) {
-
-  const avatarClass = twMerge(avatarStyles({ size }), `${rounded ? "rounded-full" : undefined}`, className)
+}, ref) => {
+  const avatarClass = twMerge(avatarStyles({ size }), `${rounded ? "rounded-full" : "rounded"}`, className)
 
   return (
-    <div className={avatarClass}>
+    <div ref={ref} className={avatarClass}>
       {src ?
-        <img src={src} alt={getInitials(alt ?? '')} className={twMerge(`w-full h-full object-cover ${rounded ? 'rounded-full' : ''}`, imageClassName)} /> : <div className="font-semibold">{getInitials(alt ?? '')}</div>}
+        <img src={src} alt={getInitials(alt ?? '')} className={twMerge(`w-full h-full object-cover ${rounded ? 'rounded-full' : 'rounded'}`, imageClassName)} /> : <div className="font-semibold">{getInitials(alt ?? '')}</div>}
     </div>
   )
-}
+
+});
+
+export default Avatar;

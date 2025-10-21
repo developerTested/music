@@ -1,7 +1,7 @@
-import type { artistInputType } from "@/schema/artist.schema";
 import Service from "./service";
 import type { ApiResponse } from "@/types/api";
 import type { FilterType, PaginationType, TrackType } from "@/types/artist.type";
+import type { songInputType } from "@/schema/song.schema";
 
 
 class SongService extends Service {
@@ -10,9 +10,9 @@ class SongService extends Service {
      * Get All Artists
      * @returns 
      */
-    fetchAll = async (options: FilterType) => {
+    fetchAll = async (options?: FilterType) => {
 
-        if (options.genre === "All") {
+        if (options && options.genre === "All") {
             options.genre = undefined;
         }
 
@@ -37,7 +37,7 @@ class SongService extends Service {
      * @param data 
      * @returns 
      */
-    createArtist = async (data: artistInputType) => {
+    createSong = async (data: songInputType) => {
         const { data: response } = await this.post<ApiResponse>("/songs", data, {
             headers: {
                 "Content-Type": "multipart/form-data"
@@ -52,7 +52,7 @@ class SongService extends Service {
      * @param data 
      * @returns 
      */
-    updateSong = async (songId: string, data: artistInputType) => {
+    updateSong = async (songId: string, data: songInputType) => {
         const { data: response } = await this.put<ApiResponse<TrackType>>(`/songs/${songId}`, data, {
             headers: {
                 "Content-Type": "multipart/form-data"

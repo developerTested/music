@@ -76,7 +76,7 @@ type TooltipProps = VariantProps<typeof tooltipStyles> & React.ComponentProps<'d
     showOnHover?: boolean;
 }
 
-export default function Tooltip({
+export function Tooltip({
     children,
     title,
     position,
@@ -123,3 +123,5 @@ export default function Tooltip({
         </div>
     );
 }
+
+export default Tooltip;

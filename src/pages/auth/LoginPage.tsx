@@ -1,7 +1,7 @@
 import React from 'react'
 import authService from '@/service/AuthService';
 import { Form, Link, useNavigate } from 'react-router-dom'
-import { Button, Input } from '@/components/forms'
+import { Button, Input, Label } from '@/components/forms'
 import { FaEnvelope, FaEye, FaEyeSlash, FaLock } from 'react-icons/fa';
 import { type SubmitHandler, useForm } from "react-hook-form"
 import { Logo } from '@/components';
@@ -59,12 +59,12 @@ export function LoginPage() {
 
                 <Form onSubmit={handleSubmit(onSubmit)} className="flex flex-col items-center gap-4">
                     <div className="relative w-full grid gap-2">
-                        <label
+                        <Label
                             htmlFor="email"
                             className="flex items-center gap-2 text-sm font-medium select-none"
                         >
                             Email
-                        </label>
+                        </Label>
 
                         <Input
                             {...register("email", {
@@ -86,12 +86,12 @@ export function LoginPage() {
                     <div className="relative w-full grid gap-2">
 
                         <div className="flex items-center">
-                            <label
+                            <Label
                                 htmlFor="password"
                                 className="flex items-center gap-2 text-sm font-medium select-none"
                             >
                                 Password
-                            </label>
+                            </Label>
 
                             <Link
                                 to="/resetPassword"

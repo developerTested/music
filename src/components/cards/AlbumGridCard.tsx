@@ -23,12 +23,13 @@ export default function AlbumGridCard({ album }: SongGridCardProps) {
 
 
   return (
-    <div className="relative flex flex-col gap-2 bg-white">
+    <div className="relative flex flex-col gap-2">
       <Link
         to={`/album/${album._id}`}
-        className="size-full  xl:size-60 rounded-lg">
+        className="w-full h-[200px] rounded-lg relative"
+      >
         <img
-          className="size-full rounded-lg"
+          className="size-full object-cover rounded-lg"
           src={album.cover}
         />
       </Link>

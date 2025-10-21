@@ -5,6 +5,7 @@ import type { TrackType } from '@/types/artist.type';
 import { Button } from '../forms';
 import { MdOutlinePlaylistAdd, MdPause, MdPlayArrow } from 'react-icons/md';
 import { ImHeart } from 'react-icons/im';
+import { formatDuration } from '@/utilities/helper';
 
 type SongItemCardProps = {
     song: TrackType,
@@ -32,13 +33,36 @@ export function SongItemCard({ song }: SongItemCardProps) {
     }
 
     return (
-        <div className="flex items-center gap-2">
-            <img src={song?.album?.cover || song.cover} className="size-10 shrink-0 rounded-lg" />
+        <div
+            key={song._id}
+            className="flex items-center gap-4 p-4 hover:bg-gray transition-colors duration-200 group
+            "
+        >
+            <div className="relative group">
+                <img
+                    src={song.cover}
+                    alt={song.title}
+                    className="size-14 rounded"
+                />
 
-            <div className="block w-full text-semibold">
-                {song.title}
+                <Button
+                    variant="icon"
+                    size="icon"
+                    onClick={() => handlePlay(song)}
+                    className="absolute inset-0 m-auto size-8 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-200"
+                >
+                    {currentTrack?.title === song.title && isPlaying ?
+                        <MdPause className="size-6" /> :
+                        <MdPlayArrow className="size-6" />}
+                </Button>
+
             </div>
-            <div className="actions flex items-center gap-4 shrink-0">
+            <div className="flex-1 min-w-0">
+                <div onClick={() => handlePlay(song)} className="font-semibold truncate mb-1">{song.title}</div>
+                <div className="text-sm text-zinc-600 dark:text-zinc-400  truncate">{song.artist?.name}</div>
+            </div>
+            <div className="text-zinc-600 dark:text-zinc-400  text-sm">{formatDuration(song.duration)}</div>
+            <div className="flex gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                 <Button variant="icon" size="icon" onClick={() => handlePlay(song)}>
 
                     {currentTrack?.title === song.title && isPlaying ?
@@ -53,7 +77,8 @@ export function SongItemCard({ song }: SongItemCardProps) {
                 <Button onClick={handleLikeSong} variant="icon" size="icon" className={`${liked ? "text-red-500" : ""}`}>
                     <ImHeart className="size-6" />
                 </Button>
+
             </div>
         </div>
-    );
+    )
 }

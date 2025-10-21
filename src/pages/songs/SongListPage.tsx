@@ -58,7 +58,7 @@ export function SongListPage() {
     } finally {
       setLoading(false);
     }
-  }, [selectedGenre]);
+  }, [selectedGenre, dispatch]);
 
 
   useEffect(() => {
@@ -74,10 +74,10 @@ export function SongListPage() {
     <div className="flex flex-col gap-4">
 
       {errorMessage && <Alert message={errorMessage} />}
-
-      {genreList &&
+      
+      {Array.isArray(genreList) &&
         <div className="flex-1 w-full overflow-hidden">
-          <div className="genre-selector flex items-center gap-2 overflow-x-auto whitespace-nowrap scrollbar-hide">
+          <div className="genre-selector flex items-center gap-2 overflow-x-auto whitespace-nowrap scrollbar-hide pb-4">
             <Button
               onClick={() => setSelectedGenre("All")}
               variant={selectedGenre === "All" ? "default" : "secondary"}

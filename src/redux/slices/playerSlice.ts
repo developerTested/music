@@ -15,8 +15,8 @@ const initialState: initialStateType = {
     queue: [],
     isEnded: false,
     isPlaying: false,
-    disableNext: false,
-    disablePrev: false,
+    disableNext: true,
+    disablePrev: true,
 }
 
 const playerSlice = createSlice({

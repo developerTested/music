@@ -5,7 +5,7 @@ import AdminSidebar from "../components/admincp/AdminSidebar";
 
 export function AdminLayout() {
     return (
-        <div className="flex flex-col items-center min-h-screen">
+        <div className="flex flex-col items-center min-h-screen dark:bg-zinc-950 dark:text-slate-200">
             <AdminHeader />
             <main className="flex w-full">
                 <AdminSidebar />

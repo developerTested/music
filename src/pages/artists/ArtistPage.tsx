@@ -3,6 +3,10 @@ import { SongItemCard } from "@/components/cards";
 import type { ArtistType, TrackType } from "@/types/artist.type";
 import { useParams } from "react-router-dom";
 import artistService from "@/service/ArtistService";
+import { FollowButton } from "@/components";
+import { FaUserPlus } from "react-icons/fa";
+import { useAppSelector } from "@/hooks";
+import NoTracksFound from "@/components/NoTracksFound";
 
 export function ArtistPage() {
 
@@ -11,6 +15,8 @@ export function ArtistPage() {
     const [artist, setArtist] = useState<ArtistType | null>(null)
 
     const [songList, setSongList] = useState<TrackType[]>([])
+
+    const { user } = useAppSelector(state => state.auth)
 
     useEffect(() => {
         /**
@@ -49,24 +55,55 @@ export function ArtistPage() {
 
 
     return (
-        <div className="grid">
-            <div className="relative overflow-hidden flex flex-col gap-4 mt-auto w-full h-350 bg-gradient-to-b from-transparent to-black p-4 rounded-t-lg">
-                <img src={artist?.banner || "/bg.jpg"} alt="background" className="absolute inset-0 object-cover" />
-                <div className="mt-auto flex items-center gap-2 z-10">
-
-                    <div className="block text-8xl leading-tight font-bold text-white drop-shadow-2xl/50 px-4 py-2">
-                        {artist?.name}
+        <div className="grid grid-cols-1 gap-2">
+            {/* Artist Banner Section */}
+            <div className="relative h-[350px] rounded-t-lg overflow-hidden">
+                <img
+                    src={artist?.banner || "/bg.jpg"}
+                    alt="background"
+                    className="absolute inset-0 z-0 w-full h-full object-cover"
+                />
+                <div className=" absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent flex flex-col gap-4 px-4 py-2">
+                    <div className="flex items-center gap-4">
+                        <h1 className="text-white text-5xl font-bold drop-shadow-lg">
+                            {artist?.name}
+                        </h1>
+                        {artist?.verified && (
+                            <img src="/verified.svg" alt="Verified" className="w-8 h-8" />
+                        )}
                     </div>
-                    {artist?.verified &&
-                        <img src="/verified.svg" className="size-14 rounded-full" />}
+
+                    {/* Stats + Follow Button */}
+                    <div className="flex justify-between items-center">
+                        <div className="text-white">
+                            <span>{artist?.country}</span> • <span>{artist?.followers} followers</span>
+                        </div>
+
+                        {user &&
+                            <FollowButton
+                                startIcon={<FaUserPlus />}
+                                artistId={artist?._id}
+                                className="rounded-full"
+                            />
+                        }
+                    </div>
                 </div>
             </div>
-            <div className="block space-y-4">
-                <div className="text-2xl font-semibold border-b dark:border-widget p-2">
+
+            {/* Songs Section */}
+            <div className="space-y-4">
+                <h2 className="text-2xl font-semibold border-b border-zinc-300 dark:border-zinc-800 pb-2">
                     Songs
-                </div>
+                </h2>
                 <div className="flex flex-col gap-2">
-                    {setSongList.length ? songList.map((song, i) => <SongItemCard key={i} song={song} />) : <div className="">No Songs!</div>}
+                    {songList.length > 1 ? (
+                        songList.map((song, i) => <SongItemCard key={i} song={song} />)
+                    ) : (
+                        <NoTracksFound
+                            title="No songs available"
+                            message="This artist hasn't uploaded any songs yet. Check back soon or explore similar artists!"
+                        />
+                    )}
                 </div>
             </div>
         </div>

@@ -1,17 +1,13 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, type ChangeEvent } from "react";
 import { useAppDispatch, useAppSelector } from ".";
 import { setCurrentTrack, setIsPlaying, setQueueNext, setQueuePrev, togglePlaying } from "../redux/slices/playerSlice";
-import type { TrackType } from "@/types";
-import { toast } from "react-toastify";
-import songService from "../service/SongService";
+import type { TrackType } from "@/types/artist.type";
 
 export function usePlayer() {
     const audioElement = useRef<HTMLAudioElement>(null)
 
     const dispatch = useAppDispatch();
     const { isPlaying, currentTrack, queue } = useAppSelector(state => state.player)
-
-    const [youtubeVideoSrc, setYoutubeVideoSrc] = useState<any>(null);
 
     const [playerState, setPlayerState] = useState({
         isEnded: false,
@@ -21,7 +17,32 @@ export function usePlayer() {
         volume: 1,
         hasPrev: false,
         hasNext: false,
+        currentTrack: null,
     });
+
+    /**
+     * Handle volume change
+     */
+    const handleVolumeChange = (e: ChangeEvent<HTMLInputElement>) => {
+        if (!audioElement.current) {
+            return;
+        }
+
+        const newVolume = parseFloat(e.target.value);
+        if (isNaN(newVolume) || newVolume < 0 || newVolume > 1) {
+            console.error('Invalid volume value:', newVolume);
+            return;
+        }
+
+        setPlayerState(prev => ({
+            ...prev,
+            volume: newVolume,
+            isMuted: newVolume === 0,
+        }));
+
+        audioElement.current.volume = newVolume;
+    };
+
 
     /**
      * Toggle Play/Pause
@@ -105,7 +126,7 @@ export function usePlayer() {
                 dispatch(setIsPlaying(false))
 
                 if (currentTrack && queue.length) {
-                    const currentIndex = queue.findIndex((a: TrackType) => a.id === currentTrack.id);
+                    const currentIndex = queue.findIndex((a: TrackType) => a._id === currentTrack._id);
 
                     if (currentIndex === -1) {
                         return;
@@ -132,8 +153,8 @@ export function usePlayer() {
      * 
      * @param {Event} event - The event triggered by the progress bar change, containing the new value.
      */
-    const handleProgress = (event: any) => {
-        const manualChange = Math.min(Math.max(Number(event.target.value), 0), 100);
+    const handleProgress = (value = 0) => {
+        const manualChange = Math.min(Math.max(Number(value), 0), 100);
 
         const audio = audioElement.current || null;
 
@@ -165,7 +186,7 @@ export function usePlayer() {
             return;
         }
 
-        const currentIndex = queue.findIndex((a: TrackType) => a.id === currentTrack.id);
+        const currentIndex = queue.findIndex((a: TrackType) => a._id === currentTrack._id);
 
         if (currentIndex === -1) {
             return;
@@ -203,7 +224,7 @@ export function usePlayer() {
         return () => {
             audioElement.current?.pause();
         };
-    }, [currentTrack, audioElement, youtubeVideoSrc]);
+    }, [currentTrack, audioElement]);
 
     useEffect(() => {
         if (!audioElement.current) {
@@ -224,12 +245,12 @@ export function usePlayer() {
 
     useEffect(() => {
         if (currentTrack && queue.length > 0) {
-            const currentIndex = queue.findIndex((a) => a.id === currentTrack.id);
+            const currentIndex = queue.findIndex((a) => a._id === currentTrack._id);
 
             dispatch(setQueueNext(currentIndex === queue.length - 1))
             dispatch(setQueuePrev(currentIndex === 0))
         }
-    }, [currentTrack, queue]);
+    }, [dispatch, currentTrack, queue]);
 
 
 
@@ -237,6 +258,7 @@ export function usePlayer() {
         audioElement,
         navigateSong,
         handleOnTimeUpdate,
+        handleVolumeChange,
         handleProgress,
         toggleMute,
         togglePlay,

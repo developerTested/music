@@ -11,6 +11,7 @@ import { FaCamera } from 'react-icons/fa'
 import { MdClose } from 'react-icons/md'
 import Alert from '@/components/Alert'
 import { getAllMessages } from '@/utilities/helper'
+import type { ToastErrorType, ToastResponseType } from '@/types/api'
 
 type ArtistFormProps = {
   artist?: ArtistType | null,
@@ -50,19 +51,23 @@ export default function ArtistForm({ artist }: ArtistFormProps) {
       data.banner = banner[0];
     }
 
-
-
-    toast.promise(artist ?
-      artistService.updateArtist(artist._id, data) :
-      artistService.createArtist(data), {
-      pending: "Please wait...",
-      success: {
-        render({ data }) {
-          return data?.message || "Form Processed"
+    toast.promise(
+      artist ?
+        artistService.updateArtist(artist._id, data) :
+        artistService.createArtist(data),
+      {
+        pending: "Please wait...",
+        success: {
+          render({ data }: ToastResponseType) {
+            return data?.message || "Artist has been created"
+          },
         },
-      },
-      error: "Something went wrong while creating an artist",
-    })
+        error: {
+          render: ({ data }: ToastErrorType) => {
+            return data?.message || "Something went wrong while creating an artist"
+          }
+        },
+      })
   }
 
 
@@ -96,6 +101,13 @@ export default function ArtistForm({ artist }: ArtistFormProps) {
                     alt="Banner"
                   />
 
+
+                  <button
+                    onClick={() => setValue("banner", undefined)}
+                    type="button"
+                    className="bg-transparent border-none outline-none bg-white dark:bg-zinc-700 absolute top-0 right-0">
+                    <MdClose className="size-6" />
+                  </button>
                 </div>
 
 
@@ -103,7 +115,7 @@ export default function ArtistForm({ artist }: ArtistFormProps) {
                 <div className="size-full flex items-center justify-center">
                   <label
                     htmlFor="banner"
-                    className="block text-sm font-medium text-gray-700 cursor-pointer">
+                    className="block text-sm font-medium  cursor-pointer">
 
                     <FaCamera className="size-14" />
                   </label>
@@ -143,7 +155,7 @@ export default function ArtistForm({ artist }: ArtistFormProps) {
                   <button
                     onClick={() => setValue("avatar", undefined)}
                     type="button"
-                    className="bg-transparent border-none outline-none bg-white absolute top-0 right-0">
+                    className="bg-transparent border-none outline-none bg-white dark:bg-zinc-900 absolute top-0 right-0">
                     <MdClose className="size-6" />
                   </button>
 
@@ -152,7 +164,7 @@ export default function ArtistForm({ artist }: ArtistFormProps) {
                 <div className="size-full flex items-center justify-center">
                   <label
                     htmlFor="avatar"
-                    className="block text-sm font-medium text-gray-700 cursor-pointer">
+                    className="block text-sm font-medium  cursor-pointer">
 
                     <FaCamera className="size-14" />
                   </label>
@@ -182,7 +194,7 @@ export default function ArtistForm({ artist }: ArtistFormProps) {
         <div className="grid grid-cols-2 gap-4">
           {/* Artist Name */}
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name</label>
+            <label htmlFor="name" className="block text-sm font-medium ">Name</label>
             <Input
               {...register('name')}
               id="name"
@@ -193,7 +205,7 @@ export default function ArtistForm({ artist }: ArtistFormProps) {
 
           {/* Date of Birth */}
           <div>
-            <label htmlFor="dob" className="block text-sm font-medium text-gray-700">Date of Birth</label>
+            <label htmlFor="dob" className="block text-sm font-medium ">Date of Birth</label>
             <Input
               {...register('dob')}
               type="date"
@@ -207,7 +219,7 @@ export default function ArtistForm({ artist }: ArtistFormProps) {
 
         {/* Bio */}
         <div>
-          <label htmlFor="bio" className="block text-sm font-medium text-gray-700">Bio</label>
+          <label htmlFor="bio" className="block text-sm font-medium ">Bio</label>
 
           <Controller
             control={control}
@@ -226,7 +238,7 @@ export default function ArtistForm({ artist }: ArtistFormProps) {
         <div className="grid grid-cols-3 gap-4">
 
           <div className="flex flex-col gap-2">
-            <label htmlFor="location.city" className="block text-sm font-medium text-gray-700">City</label>
+            <label htmlFor="location.city" className="block text-sm font-medium ">City</label>
             <Input
               {...register('location.city')}
               id="location.city"
@@ -236,7 +248,7 @@ export default function ArtistForm({ artist }: ArtistFormProps) {
           </div>
 
           <div className="flex flex-col gap-2">
-            <label htmlFor="location.state" className="block text-sm font-medium text-gray-700">State</label>
+            <label htmlFor="location.state" className="block text-sm font-medium ">State</label>
             <Input
               {...register('location.state')}
               id="location.state"
@@ -246,7 +258,7 @@ export default function ArtistForm({ artist }: ArtistFormProps) {
           </div>
 
           <div className="flex flex-col gap-2">
-            <label htmlFor="location.country" className="block text-sm font-medium text-gray-700">Country</label>
+            <label htmlFor="location.country" className="block text-sm font-medium ">Country</label>
             <Input
               {...register('location.country')}
               id="location.country"

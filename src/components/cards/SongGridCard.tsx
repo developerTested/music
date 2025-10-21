@@ -1,7 +1,6 @@
 import { useAppDispatch, useAppSelector } from "@/hooks"
-import { setCurrentTrack, setIsPlaying } from "@/redux/slices/playerSlice"
+import { setCurrentTrack, setIsPlaying, togglePlaying } from "@/redux/slices/playerSlice"
 import type { TrackType } from "@/types/artist.type"
-import { formatDuration } from "@/utilities/helper"
 import { FaImage } from "react-icons/fa"
 import { Button } from "../forms"
 import { MdPause, MdPlayArrow } from "react-icons/md"
@@ -17,9 +16,12 @@ export default function SongGridCard({ song }: SongGridCardProps) {
 
     const handlePlay = (track: TrackType) => {
 
-        dispatch(setCurrentTrack(track))
-        dispatch(setIsPlaying(true));
-
+        if (currentTrack?._id === track._id) {
+            dispatch(togglePlaying());
+        } else {
+            dispatch(setCurrentTrack(track))
+            dispatch(setIsPlaying(true));
+        }
     };
 
 
@@ -36,37 +38,26 @@ export default function SongGridCard({ song }: SongGridCardProps) {
         )
     }
 
-
     return (
-        <div className="relative flex flex-col">
-            <div className="w-full h-[200px] rounded-lg relative">
+        <div
+            className="p-4 transition-all duration-200 group cursor-pointer rounded-lg"
+        >
+            <div className="relative mb-2">
                 <img
-                    className="size-full rounded-lg object-cover"
                     src={song.cover}
+                    alt={song.title}
+                    className="w-full aspect-square object-cover rounded-lg group-hover:brightness-75 transition-all"
                 />
 
-                <Button variant="icon" size="icon" onClick={() => handlePlay(song)} className="absolute bottom-2 right-2">
-
+                <Button variant="icon" size="icon" onClick={() => handlePlay(song)} className="absolute bottom-2 right-2  opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-200">
                     {currentTrack?.title === song.title && isPlaying ?
                         <MdPause className="size-6" /> :
                         <MdPlayArrow className="size-6" />}
                 </Button>
-            </div>
 
-            <div className="block p-2">
-                <div className="text-md font-bold truncate mb-2">
-                    {song.title}
-                </div>
-                <div className="flex items-center justify-between">
-                    <div className="text-sm font-semibold">
-                        {song.artist.name}
-                    </div>
-
-                    <div className="text-sm">
-                        {formatDuration(song.duration)}
-                    </div>
-                </div>
             </div>
+            <h3 className="font-semibold truncate mb-1">{song.title}</h3>
+            <p className="text-sm text-zinc-600 line-clamp-2">{song.artist.name}</p>
         </div>
     )
 }

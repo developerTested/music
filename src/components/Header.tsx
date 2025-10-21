@@ -5,14 +5,15 @@ import { MdLightMode, MdMenu } from "react-icons/md";
 import { BsMoonStarsFill } from "react-icons/bs";
 import { useAppDispatch, useAppSelector } from "@/hooks";
 import { setDarkMode, setMiniMenu, setMobileMenu } from "@/redux/slices/appSlice";
-import { useCallback, useLayoutEffect } from "react";
-import Avatar from "./Avatar";
 import { toast } from "react-toastify";
 import authService from "@/service/AuthService";
 import type { ToastErrorType, ToastResponseType } from "@/types/api";
 import { resetUser } from "@/redux/slices/authSlice";
 import { ImExit } from "react-icons/im";
 import Tooltip from "./Tooltip";
+import { useCallback, useLayoutEffect } from "react";
+import Avatar from "./Avatar";
+import { Dropdown, DropdownContent, DropdownHeader, DropdownItem, DropdownSeparator, DropdownTrigger } from "./Dropdown";
 
 export function Header() {
 
@@ -105,7 +106,7 @@ export function Header() {
         top-0
         w-full
         p-2
-        backdrop-blur-md
+        backdrop-blur-xl
         ">
 
             <div className="flex items-center gap-2">
@@ -148,7 +149,36 @@ export function Header() {
 
                 {user ?
                     <div className="flex items-center gap-2">
-                        <Avatar alt={user.fullName} />
+
+                        {user.role === "ADMIN" && <Link to={`/admincp`}>
+                            Admin Control Panel
+                        </Link>}
+
+                        <Dropdown>
+                            <DropdownTrigger asChild>
+                                <Avatar
+                                    alt={user.fullName}
+                                    size="sm"
+                                />
+                            </DropdownTrigger>
+                            <DropdownContent>
+                                <DropdownHeader>My Profile</DropdownHeader>
+                                <DropdownItem>
+                                    <Link to={`/@/${user.username}`}>
+                                        Profile
+                                    </Link>
+                                </DropdownItem>
+
+                                <DropdownSeparator />
+
+                                <DropdownItem
+                                    onClick={handleLogout}
+                                >
+                                    <ImExit />
+                                    <span>Logout</span>
+                                </DropdownItem>
+                            </DropdownContent>
+                        </Dropdown>
 
                         <div className="flex items-center gap-2">
                             <Button

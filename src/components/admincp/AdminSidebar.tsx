@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
 import { FaUsers } from "react-icons/fa";
-import { MdAlbum, MdHome, MdMusicNote, MdPeople } from "react-icons/md"
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { MdAlbum, MdHome, MdMusicNote } from "react-icons/md"
+import { NavLink } from "react-router-dom";
 
 const menuItems = [
     {
@@ -46,12 +45,10 @@ export default function AdminSidebar() {
         top-14
         w-60
         h-full
-        bg-white
-        dark:bg-widget
-        dark:text-slate-300
-        border-r
-        dark:border-widget
-        ">
+bg-inherit
+border-r 
+dark:border-zinc-800
+">
             <div className="menu-container flex flex-col pr-2 py-2">
                 {menuItems.map((menu, i) => <NavLink
                     key={i}
@@ -63,10 +60,10 @@ export default function AdminSidebar() {
                     gap-4
                     px-4
                     py-2.5 
-                    ${isActive ? "bg-black dark:bg-input text-white" : ""}
-                hover:bg-black
-                dark:hover:bg-input
-                hover:text-white
+                    ${isActive ? "bg-black dark:bg-zinc-900 text-white" : ""}
+                    hover:bg-zinc-800
+                    dark:hover:bg-zinc-800
+                    hover:text-white
                 rounded-r-full`
                     }>
                     <div className="icon">

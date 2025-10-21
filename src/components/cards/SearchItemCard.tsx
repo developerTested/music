@@ -32,7 +32,7 @@ export function SearchItemCard({ song }: SearchItemCardProps) {
     }
 
     return (
-        <div className={`flex items-start gap-2 p-2 ${currentTrack?._id === song._id && isPlaying ? "bg-slate-100 dark:bg-widget" : "bg-white"} rounded-lg`}>
+        <div className={`flex items-start gap-2 p-2 ${currentTrack?._id === song._id && isPlaying ? "bg-slate-100 dark:bg-zinc-900" : "bg-white dark:bg-zinc-800 hover:dark:bg-zinc-900"} rounded-lg`}>
             <img src={song?.album?.cover || song.cover || "http://cdn-images.dzcdn.net/images/cover/1a2ff1ad7241739d524583d6f775c379/1000x1000-000000-80-0-0.jpg"} className="size-24 shrink-0 rounded-lg" />
 
             <div className="flex flex-col gap-2 w-full text-semibold">

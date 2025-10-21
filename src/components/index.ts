@@ -3,6 +3,7 @@ export * from './Alert';
 export * from './Avatar';
 export * from './CircularProgressBar';
 export * from './Footer';
+export * from './FollowButton';
 export * from './Greeting';
 export * from './Header';
 export * from './Logo';

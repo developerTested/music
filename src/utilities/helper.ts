@@ -148,7 +148,7 @@ export function formatDuration(time?: number) {
  * @param num 
  * @returns 
  */
-export function formatNumbers(num: number) {
+export function formatNumbers(num?: number) {
 
     if (!num) {
         return;

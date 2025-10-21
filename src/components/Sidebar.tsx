@@ -106,7 +106,7 @@ export function Sidebar() {
                     py-2.5
                     ${isActive ? "bg-zinc-800 dark:bg-zinc-900 text-white font-semibold" : ""}
                     hover:bg-zinc-800
-                    dark:hover:bg-input
+                    dark:hover:bg-zinc-900
                     hover:text-white
                     rounded-r-full
                     transition-all

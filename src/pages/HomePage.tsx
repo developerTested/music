@@ -1,81 +1,204 @@
+import { Greeting } from "@/components";
+import { PlayListCard, SongItemCard } from "@/components/cards";
+import AlbumGridCard from "@/components/cards/AlbumGridCard";
+import ArtistCard from "@/components/cards/ArtistCard";
 import SongGridCard from "@/components/cards/SongGridCard";
-import songService from "@/service/SongService";
-import type { TrackType } from "@/types/artist.type";
-import { AxiosError } from "axios";
-import { useEffect, useState } from "react";
+import { Button } from "@/components/forms";
+import type { AlbumType, ArtistType, PlayListType, TrackType } from "@/types/artist.type";
+import { MUSIC_API } from "@/utilities/api";
+import { useQuery } from "@tanstack/react-query";
 
-export function HomePage() {
-
-  const [errorMessage, setErrorMessage] = useState<string | null>(null)
-  const [songList, setSongList] = useState<TrackType[]>([])
-
-  useEffect(() => {
-
-    const fetchSongs = async () => {
-      try {
-        const response = await songService.fetchAll();
-
-        setSongList(response.data)
-
-      } catch (error) {
-        if (error instanceof AxiosError) {
-          setErrorMessage(error?.message);
-        } else if (error instanceof Error) {
-          setErrorMessage(error?.message);
-        } else {
-          setErrorMessage("Something went wrong")
-        }
-      }
-    }
-
-    fetchSongs();
-
-    return () => {
-      setSongList([])
-      setErrorMessage(null);
-    }
-  }, [])
-
+type MusicDashboardProps = {
+  data: {
+    topSongs: TrackType[],
+    recentUploads: TrackType[],
+    recentReleases: TrackType[],
+    recentAlbums: AlbumType[],
+    mostPlayedSongs: TrackType[],
+    featuredArtists: ArtistType[],
+    recentPlayedSongs: TrackType[],
+  }
+}
+const MusicDashboard = ({ data }: MusicDashboardProps) => {
+  const {
+    topSongs = [],
+    recentUploads = [],
+    recentReleases = [],
+    recentAlbums = [],
+    mostPlayedSongs = [],
+    featuredArtists = [],
+    recentPlayedSongs = []
+  } = data;
 
   return (
     <div>
-      <div className="text-lg font-semibold mb-4">
-        Latest Songs
-      </div>
-
-      <Hero />
-
-      <div className="flex-1 p-6 bg-gray-100 overflow-y-auto">
-        
-        <h2 className="text-xl font-semibold mb-4">Featured Playlists</h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {/* <!-- Playlist cards --> */}
-          <div className="bg-white p-4 rounded-lg shadow hover:shadow-lg transition">
-            <img src="playlist.jpg" className="rounded mb-2" />
-            <p className="font-medium">Chill Vibes</p>
+      {recentReleases.length > 0 && (
+        <section>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-2xl font-bold">Recently Played</h2>
+            <Button
+              size="sm"
+              className="text-sm font-medium"
+            >
+              Show all
+            </Button>
           </div>
-          {/* <!-- Repeat for more cards --> */}
-        </div>
-      </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
+            {recentReleases.map((playlist, i) => <PlayListCard key={i} playlist={playlist} />)}
+          </div>
+        </section>
+      )}
 
+      {topSongs.length > 0 && (
+        <section>
+          <h2 className="text-2xl font-bold">Top Songs</h2>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
+            {topSongs.map((song, i) => <SongGridCard key={i} song={song} />)}
+          </div>
+        </section>
+      )}
 
-      {/* <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-        {songList.length ? songList.map((song, i) => <SongGridCard key={i} song={song} />) : ""}
-      </div> */}
-    </div>
-  )
-}
+      {recentUploads.length > 0 && (
+        <section>
+          <h2 className="text-2xl font-bold">Recent Uploads</h2>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
+            {recentUploads.map((song, i) => <SongGridCard key={i} song={song} />)}
+          </div>
+        </section>
+      )}
 
+      {recentAlbums.length > 0 && (
+        <section>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-2xl font-bold">Recent Albums</h2>
+            <button className="text-gray-400 hover:text-white text-sm font-medium">
+              See all
+            </button>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
+            {recentAlbums.map((album, i) => <AlbumGridCard key={i} album={album} />)}
+          </div>
+        </section>
+      )}
 
-// Hero.jsx
- function Hero() {
-  return (
-    <div className="text-center py-10 px-6">
-      <h2 className="text-4xl font-extrabold mb-2">Feel the Future of Sound</h2>
-      <p className="text-gray-400 mb-6">Stream. Discover. Vibe.</p>
-      <button className="bg-gradient-to-r from-purple-500 to-pink-500 px-6 py-2 rounded-full font-semibold hover:scale-105 transition">
-        Explore Tracks
-      </button>
+      {featuredArtists.length > 0 && (
+        <section>
+          <div className="flex items-center justify-between mb-4">
+
+            <div className="flex-1 w-full text-xl font-bold">
+              Popular Artists
+            </div>
+
+            <button className="text-gray-400 hover:text-white text-sm font-medium">
+              See all
+            </button>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
+            {featuredArtists.map((artist, i) => <ArtistCard key={i} artist={artist} />)}
+          </div>
+        </section>
+      )}
+
+      {/* Recently Played Tracks */}
+      {recentPlayedSongs.length > 0 && (
+        <section>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-2xl font-bold">Recently Played Tracks</h2>
+            <button className="text-gray-400 hover:text-white text-sm font-medium">
+              Show all
+            </button>
+          </div>
+          <div className="bg-lightDark rounded-lg overflow-hidden">
+            {recentPlayedSongs.slice(0, 5).map((song, index) => <SongItemCard key={index} song={song} />)}
+          </div>
+        </section>
+      )}
     </div>
   );
-}
+};
+
+
+
+export function HomePage() {
+
+  const { isPending, error, data } = useQuery({
+    queryKey: ['home'],
+    queryFn: async () => {
+      const { data: response } = await MUSIC_API.get('/home')
+
+      return response.data;
+    }
+  })
+
+  if (isPending) return 'Loading...'
+
+  if (error) return 'An error has occurred: ' + error.message
+
+
+  return (
+    <div className="space-y-8 overflow-y-auto">
+      {/* Welcome Header */}
+      < section className="mb-8">
+        <Greeting />
+        <p className="text-zinc-600 dark:text-zinc-400">Ready to discover some great music?</p>
+      </section>
+
+      <MusicDashboard data={data} />
+
+      {/* Recently Played */}
+      {/* <section>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-2xl font-bold">Recently Played</h2>
+          <Button
+            size="sm"
+            className="text-sm font-medium"
+          >
+            Show all
+          </Button>
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
+          {recentlyPlayed.map((playlist, i) => <PlayListCard key={i} playlist={playlist} />)}
+        </div>
+      </section> */}
+
+      {/* Made For You */}
+      {/* <section>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-2xl font-bold">Made for You</h2>
+          <button className="text-gray-400 hover:text-white text-sm font-medium">
+            See all
+          </button>
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+          {featuredPlaylists.map((playlist, i) => <PlayListCard key={i} playlist={playlist} />)}
+        </div>
+      </section> */}
+
+      {/* Popular Artists */}
+      {/* <section>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-2xl font-bold">Popular Artists</h2>
+          <button className="text-gray-400 hover:text-white text-sm font-medium">
+            See all
+          </button>
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
+          {artists.map((artist, i) => <ArtistCard key={i} artist={artist} />)}
+        </div>
+      </section> */}
+
+      {/* Recently Played Tracks */}
+      {/* <section>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-2xl font-bold">Recently Played Tracks</h2>
+          <button className="text-gray-400 hover:text-white text-sm font-medium">
+            Show all
+          </button>
+        </div>
+        <div className="bg-lightDark rounded-lg overflow-hidden">
+          {songs.slice(0, 5).map((song, index) => <SongItemCard key={index} song={song} />)}
+        </div>
+      </section> */}
+    </div >
+  );
+};
