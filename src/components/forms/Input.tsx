@@ -1,6 +1,6 @@
 import React, { forwardRef, type Ref } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
-import { twMerge } from "tailwind-merge";
+import { cn } from "@/utilities/helper";
 
 const inputStyles = cva(["block rounded"], {
     variants: {
@@ -39,13 +39,11 @@ export const Input = forwardRef(
     ) => {
 
         return <div className="relative flex items-center flex-1">
-
-
             <input
                 {...props}
                 type={type}
                 ref={ref}
-                className={twMerge(
+                className={cn(
                     inputStyles({ variant, size }),
                     startIcon && "pl-10",
                     endIcon && "pr-10",

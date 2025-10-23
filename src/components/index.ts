@@ -11,5 +11,6 @@ export * from './MusicPlayer';
 export * from './NoTracksFound';
 export * from './Pagination';
 export * from './Sidebar';
+export * from "./Skeleton";
 export * from './Spinner';
 export * from './ThemeToggle';

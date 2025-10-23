@@ -9,10 +9,10 @@ const buttonStyles = cva(["text-center", "uppercase", "rounded", "cursor-pointer
             default: ["bg-zinc-900 hover:bg-zinc-800 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-white dark:text-zinc-200"],
             primary: ["bg-white hover:bg-slate-200 dark:bg-white/20 text-black"],
             secondary: ["bg-gray-200 dark:bg-zinc-900 dark:hover:bg-zinc-800"],
-            success: ["bg-green-600 hover:bg-green-600 dark:bg-white/20 text-white"],
-            danger: ["bg-red-500 hover:bg-red-600 dark:bg-white/20 text-white"],
-            info: ["bg-blue-500 hover:bg-blue-600 dark:bg-white/20 text-white"],
-            warning: ["bg-yellow-500 hover:bg-yellow-600 dark:bg-white/20 text-white"],
+            success: ["bg-green-600 hover:bg-green-600 dark:bg-success-600 text-white"],
+            danger: ["bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-700 text-white"],
+            info: ["bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 text-white"],
+            warning: ["bg-yellow-500 hover:bg-yellow-600 dark:bg-yellow-600 text-white"],
             icon: ["bg-gray-50 hover:bg-gray-100 dark:bg-zinc-800 dark:hover:bg-zinc-900"]
         },
         size: {

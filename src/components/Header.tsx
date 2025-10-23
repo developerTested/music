@@ -101,7 +101,7 @@ export function Header() {
         flex
         items-center
         justify-between
-        z-1030 
+        z-100 
         sticky 
         top-0
         w-full

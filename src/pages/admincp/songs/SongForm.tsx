@@ -9,6 +9,7 @@ import songService from '@/service/SongService';
 import { FaCamera } from 'react-icons/fa';
 import { MdClose } from 'react-icons/md';
 import { formatDate } from '@/utilities/helper';
+import { useNavigate } from 'react-router-dom';
 
 type SongFormProps = {
   song?: TrackType,
@@ -31,6 +32,8 @@ export function SongForm({ song }: SongFormProps) {
     },
   });
 
+  const navigate = useNavigate();
+
   const cover = watch("cover");
   const media = watch("media");
 
@@ -49,7 +52,12 @@ export function SongForm({ song }: SongFormProps) {
         songService.createSong(data),
       {
         pending: "Please wait...",
-        success: "Song Created!",
+        success: {
+          render() {
+            navigate("/admincp/songs")
+            return "Song Created!"
+          }
+        },
         error: {
           render({ data }) {
             console.log(data);
@@ -317,6 +325,7 @@ export function SongForm({ song }: SongFormProps) {
                       type="file"
                       id="cover"
                       className="w-full p-2 border rounded-md hidden"
+                      accept='image/*'
                     />
                   </div>}
 

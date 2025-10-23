@@ -2,12 +2,14 @@ import { MdClose } from "react-icons/md"
 import { twMerge } from "tailwind-merge";
 import { cva, type VariantProps } from "class-variance-authority";
 import { Button } from "./Button";
-import { createContext, type ReactNode, useContext } from "react";
+import React, { createContext, useContext, useEffect, useRef, type RefObject } from "react";
+import { cn } from "@/utilities/helper";
 
 type DialogContextType = {
     open: boolean;
     onClose: () => void;
     size?: string;
+    ref?: RefObject<HTMLDivElement | null>,
 };
 
 export const DialogContext = createContext<DialogContextType | undefined>(undefined);
@@ -20,7 +22,7 @@ export const useDialog = () => {
     return context;
 };
 
-const dialogStyles = cva('bg-white shadow-lg rounded-lg p-2', {
+const dialogStyles = cva('shadow-lg rounded-lg p-2 z-1030', {
     variants: {
         size: {
             xs: 'w-48',        // Extra Small
@@ -44,21 +46,63 @@ type DialogProps = VariantProps<typeof dialogStyles> & React.ComponentProps<"div
     onClose: () => void,
 }
 
+
 const Dialog = ({ open, onClose, children, className, size }: DialogProps) => {
+    const contentRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (
+                contentRef.current &&
+                event.target instanceof Node &&
+                !contentRef.current.contains(event.target)
+            ) {
+                onClose();
+            }
+        };
+
+        if (open) {
+            document.addEventListener("mousedown", handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [open, onClose]);
+
     if (!open) return null;
 
     return (
-        <DialogContext.Provider value={{ open, onClose }}>
-            <dialog open={open} onClose={onClose}>
-                <div className="fixed inset-0 bg-black bg-opacity-20 flex items-center justify-center z-10">
-                    <div className={twMerge(dialogStyles({ size }), className)}>
+        <DialogContext.Provider value={{ open, onClose, ref: contentRef }}>
+            <div
+                className="fixed inset-0 bg-black bg-opacity-40 backdrop-blur-sm z-100"
+                onClick={onClose}
+            />
+
+            {/* Dialog container */}
+            <div className="fixed inset-0 z-1030 flex items-center justify-center p-4">
+                <dialog
+                    open={open}
+                    onClose={onClose}
+                    className="relative bg-transparent border-none outline-none m-0 p-0 animate-in"
+                >
+                    <div
+                        ref={contentRef}
+                        className={twMerge(
+                            dialogStyles({ size }),
+                            "bg-white rounded-lg shadow-xl",
+                            className
+                        )}
+                        onClick={(e) => e.stopPropagation()} // Prevent clicks inside from closing
+                    >
                         {children}
                     </div>
-                </div>
-            </dialog>
+                </dialog>
+            </div>
         </DialogContext.Provider>
     );
 };
+
 
 type DialogHeaderProps = {
     enableClose?: boolean,
@@ -85,7 +129,12 @@ const DialogHeader = ({ title, enableClose = true }: DialogHeaderProps) => {
     )
 }
 
-const DialogFooter = () => {
+type DialogFooterProps = {
+    onDelete: () => void,
+    submitVariant?: "default" | "primary" | "secondary" | "success" | "danger" | "info" | "warning"
+}
+
+const DialogFooter = ({ onDelete, submitVariant = "danger" }: DialogFooterProps) => {
 
     const { onClose } = useDialog()
 
@@ -98,6 +147,8 @@ const DialogFooter = () => {
                 Cancel
             </button>
             <Button
+                onClick={onDelete}
+                variant={submitVariant}
             >
                 Submit
             </Button>
@@ -105,21 +156,31 @@ const DialogFooter = () => {
     );
 };
 
-type DialogContentProps = {
-    children: ReactNode,
-}
+type DialogContentProps = React.ComponentPropsWithRef<"div">
 
-const DialogContent = ({ children }: DialogContentProps) => {
+const DialogContent = ({ children, className }: DialogContentProps) => {
+    const { onClose, ref } = useDialog();
+
     return (
-        <div className="bg-white rounded-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+        <div
+            ref={ref}
+            className={cn("bg-white w-full max-w-4xl max-h-[90vh] overflow-y-auto relative", className)}
+        >
+            <button
+                onClick={onClose}
+                className="text-gray-500 hover:text-gray-800 text-2xl absolute right-1 top-1"
+            >
+                <MdClose className="size-6" />
+            </button>
+
             {children}
         </div>
-    )
-}
+    );
+};
+
 
 Dialog.Header = DialogHeader;
 Dialog.Content = DialogContent;
 Dialog.Footer = DialogFooter;
 
 export { Dialog };
-

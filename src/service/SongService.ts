@@ -62,11 +62,11 @@ class SongService extends Service {
     }
 
     /**
-     * Delete artist and its song, albums
+     * Delete a song
      * @param songId 
      */
     removeSong = async (songId: string) => {
-        return this.delete(`/songs/${songId}`)
+        return this.delete<ApiResponse>(`/songs/${songId}`)
     }
 
     /**
@@ -89,6 +89,23 @@ class SongService extends Service {
         const { data: response } = await this.get<ApiResponse<PaginationType<TrackType[]>>>(`/search?q=${query}&limit=${limit}`);
         return response;
     }
+
+    /**
+     * Favorite a song
+     * @param songId 
+     */
+    checkLiked = async (songId: string) => {
+        return this.post<ApiResponse<{ favorite: boolean }>>(`/songs/${songId}/checkFavorite`)
+    }
+
+    /**
+     * Favorite a song
+     * @param songId 
+     */
+    toggleFavorite = async (songId: string) => {
+        return this.post<ApiResponse<{ favorite: boolean }>>(`/songs/${songId}/favorite`)
+    }
+
 }
 
 const songService = new SongService();

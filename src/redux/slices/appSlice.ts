@@ -4,12 +4,14 @@ type initialStateType = {
     darkMode: boolean,
     mobileMenu: boolean,
     miniMenu: boolean,
+    showLoginForm: boolean,
 }
 
 const initialState: initialStateType = {
     darkMode: false,
     mobileMenu: false,
     miniMenu: false,
+    showLoginForm: false,
 }
 
 const appSlice = createSlice({
@@ -27,8 +29,12 @@ const appSlice = createSlice({
         setMiniMenu: (state, action) => {
             state.miniMenu = action.payload;
         },
+
+        setShowLoginForm: (state, action) => {
+            state.showLoginForm = action.payload;
+        },
     }
 })
 
-export const { setDarkMode, setMiniMenu, setMobileMenu } = appSlice.actions
+export const { setDarkMode, setMiniMenu, setMobileMenu, setShowLoginForm } = appSlice.actions
 export default appSlice.reducer

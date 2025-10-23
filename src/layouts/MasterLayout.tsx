@@ -1,19 +1,28 @@
 import { Outlet } from "react-router-dom";
 import { Footer, Header, MusicPlayer, Sidebar } from "../components";
-import { useAppSelector } from "@/hooks";
+import { useAppDispatch, useAppSelector } from "@/hooks";
 import { twMerge } from "tailwind-merge";
 import { cn } from "@/utilities/helper";
+import { Dialog, LoginForm } from "@/components/forms";
+import { setShowLoginForm } from "@/redux/slices/appSlice";
 
 export function MasterLayout() {
 
-  const { miniMenu, mobileMenu } = useAppSelector(state => state.app);
+  const { miniMenu, mobileMenu, showLoginForm } = useAppSelector(state => state.app);
+  const { user } = useAppSelector(state => state.auth);
+
+  const dispatch = useAppDispatch();
+
+  const toggleDialog = () => {
+    dispatch(setShowLoginForm(false))
+  }
 
   return (
     <div
       className={cn(
         "block min-h-screen w-full dark:bg-zinc-950 dark:text-slate-200",
         "min-h-screen text-zinc-900 dark:text-zinc-100 bg-gradient-to-br from-zinc-100 via-zinc-300 to-zinc-500 dark:from-zinc-900 dark:via-zinc-800 dark:to-zinc-700"
-    )}
+      )}
     >
       <Header />
 
@@ -41,7 +50,20 @@ export function MasterLayout() {
       </div>
 
       <Footer />
+
       <MusicPlayer />
-    </div >
+
+      {!user &&
+        <Dialog
+          open={showLoginForm}
+          onClose={toggleDialog}
+          size="lg"
+        >
+          <Dialog.Content>
+            <LoginForm />
+          </Dialog.Content>
+        </Dialog>
+      }
+    </div>
   )
 }

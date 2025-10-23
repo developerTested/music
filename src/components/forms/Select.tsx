@@ -153,7 +153,7 @@ export function Select({
 
             <div
                 className={cn(
-                    "flex flex-col gap-2",
+                    "flex flex-col",
                     "absolute top-full left-0 right-0 z-10",
                     "animate-in fade-in zoom-in-95",
                     "mt-2",
@@ -166,6 +166,7 @@ export function Select({
                     onChange={(e) => setSearchInput(e.target.value)}
                     placeholder={placeholderText}
                     startIcon={<CiSearch className="size-6" />}
+                    className="rounded-none"
                 />
                 <div className="select-content h-auto max-h-60 overflow-y-auto">
                     {filteredOptions.length > 0 ? (
@@ -222,10 +223,10 @@ export const SelectItem = ({
             role="option"
             tabIndex={0}
             className={cn(
-                "rounded text-sm outline-none select-none",
+                "text-sm outline-none select-none",
                 "relative flex items-center gap-2 px-2 py-1.5",
                 "focus:bg-inherit focus:text-inherit",
-                "rounded", "cursor-pointer",
+                "cursor-pointer",
                 "bg-white hover:bg-zinc-800 focus:bg-zinc-800 focus:text-white hover:text-zinc-200 dark:bg-zinc-900 dark:hover:bg-zinc-700 dark:text-zinc-200",
                 active ? "bg-zinc-800 text-white" : "",
                 className

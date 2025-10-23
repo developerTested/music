@@ -57,7 +57,7 @@ export default function SongGridCard({ song }: SongGridCardProps) {
 
             </div>
             <h3 className="font-semibold truncate mb-1">{song.title}</h3>
-            <p className="text-sm text-zinc-600 line-clamp-2">{song.artist.name}</p>
+            <p className="text-sm text-zinc-600 dark:text-zinc-200 line-clamp-2">{song.artist.name}</p>
         </div>
     )
 }

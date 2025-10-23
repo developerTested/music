@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import { setCurrentTrack, setIsPlaying, togglePlaying } from '@/redux/slices/playerSlice';
 import type { TrackType } from '@/types/artist.type';
@@ -6,6 +6,10 @@ import { Button } from '../forms';
 import { MdOutlinePlaylistAdd, MdPause, MdPlayArrow } from 'react-icons/md';
 import { ImHeart } from 'react-icons/im';
 import { formatDuration } from '@/utilities/helper';
+import { toast } from 'react-toastify';
+import songService from '@/service/SongService';
+import { AxiosError } from 'axios';
+import { setShowLoginForm } from '@/redux/slices/appSlice';
 
 type SongItemCardProps = {
     song: TrackType,
@@ -17,6 +21,7 @@ export function SongItemCard({ song }: SongItemCardProps) {
     const [liked, setLiked] = useState(false);
 
     const { currentTrack, isPlaying } = useAppSelector(state => state.player)
+    const { loggedIn } = useAppSelector((state) => state.auth)
 
     const handlePlay = (track: TrackType) => {
 
@@ -29,8 +34,62 @@ export function SongItemCard({ song }: SongItemCardProps) {
     };
 
     const handleLikeSong = async () => {
-        setLiked(!liked)
+
+        if (!loggedIn) {
+            dispatch(setShowLoginForm(true))
+
+            return;
+        }
+
+        if (!song?._id) {
+            toast.error("Song ID is missing!");
+            return;
+        }
+
+        try {
+            const response = await songService.toggleFavorite(song._id);
+
+            setLiked(response.data.favorite)
+        } catch (error) {
+            let errorMessage = "Something went wrong";
+
+            if (error instanceof AxiosError) {
+                errorMessage = error?.message;
+            } else if (error instanceof Error) {
+                errorMessage = error?.message;
+            } else {
+                errorMessage = "Something went wrong"
+            }
+
+            console.log(errorMessage);
+
+            setLiked(false)
+        }
     }
+
+    useEffect(() => {
+
+        if (!song._id && !loggedIn) {
+            return;
+        }
+
+        const fetchLikedOrNot = async () => {
+            try {
+                const response = await songService.checkLiked(song._id);
+
+                setLiked(response.data.favorite)
+
+            } catch (error) {
+                console.log(error);
+
+                setLiked(false);
+            }
+        }
+
+
+        fetchLikedOrNot();
+
+    }, [song?._id, loggedIn]);
 
     return (
         <div
