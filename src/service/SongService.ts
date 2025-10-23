@@ -1,6 +1,6 @@
 import Service from "./service";
 import type { ApiResponse } from "@/types/api";
-import type { FilterType, PaginationType, TrackType } from "@/types/artist.type";
+import type { FilterType, PaginationType, SearchType, TrackType } from "@/types/artist.type";
 import type { songInputType } from "@/schema/song.schema";
 
 
@@ -86,7 +86,7 @@ class SongService extends Service {
      * @returns 
      */
     search = async (query: string, limit: number = 25) => {
-        const { data: response } = await this.get<ApiResponse<PaginationType<TrackType[]>>>(`/search?q=${query}&limit=${limit}`);
+        const { data: response } = await this.get<ApiResponse<PaginationType<SearchType>>>(`/search?q=${query}&limit=${limit}`);
         return response;
     }
 

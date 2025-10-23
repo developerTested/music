@@ -125,7 +125,7 @@ export function usePlayer() {
 
                 dispatch(setIsPlaying(false))
 
-                if (currentTrack && queue.length) {
+                if (currentTrack && queue && queue.length) {
                     const currentIndex = queue.findIndex((a: TrackType) => a._id === currentTrack._id);
 
                     if (currentIndex === -1) {
@@ -186,7 +186,7 @@ export function usePlayer() {
             return;
         }
 
-        const currentIndex = queue.findIndex((a: TrackType) => a._id === currentTrack._id);
+        const currentIndex = queue ? queue.findIndex((a: TrackType) => a._id === currentTrack._id) : -1;
 
         if (currentIndex === -1) {
             return;
@@ -244,7 +244,7 @@ export function usePlayer() {
 
 
     useEffect(() => {
-        if (currentTrack && queue.length > 0) {
+        if (currentTrack && queue && queue.length > 0) {
             const currentIndex = queue.findIndex((a) => a._id === currentTrack._id);
 
             dispatch(setQueueNext(currentIndex === queue.length - 1))

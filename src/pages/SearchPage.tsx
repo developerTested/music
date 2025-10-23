@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react'
-import { SearchItemCard } from '@/components/cards';
 import { useSearchParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import { setQueue } from '@/redux/slices/playerSlice';
-import type { TrackType } from '@/types/artist.type';
+import type { SearchType } from '@/types/artist.type';
 import songService from '@/service/SongService';
 import { CiSearch } from 'react-icons/ci';
 import NoTracksFound from '@/components/NoTracksFound';
+import AlbumGridCard from '@/components/cards/AlbumGridCard';
+import ArtistCard from '@/components/cards/ArtistCard';
+import { SongItemCard } from '@/components/cards';
 
 export function SearchPage() {
 
@@ -16,10 +18,9 @@ export function SearchPage() {
     const dispatch = useAppDispatch()
 
     const [loading, setLoading] = useState(false);
-    const [results, setResults] = useState<TrackType[]>([]);
+    const [results, setResults] = useState<SearchType | null>(null);
 
     const q = searchParams.get("q")
-
 
     useEffect(() => {
         const fetchResults = async () => {
@@ -34,7 +35,9 @@ export function SearchPage() {
 
             try {
                 const response = await songService.search(url);
-                setResults(response.data);
+                if (response.data) {
+                    setResults(response.data);
+                }
 
             } catch (error) {
                 console.log(error);
@@ -48,7 +51,7 @@ export function SearchPage() {
         fetchResults()
 
         return () => {
-            setResults([])
+            setResults(null)
         }
     }, [q])
 
@@ -61,10 +64,19 @@ export function SearchPage() {
         }
 
         if (isPlaying) {
-            dispatch(setQueue(results))
+            dispatch(setQueue(results?.songs))
         }
 
     }, [currentTrack, isPlaying, dispatch, results]);
+
+
+    const { songs = [], albums = [], artists = [] } = results ?? {};
+
+    const hasAlbums = albums?.length > 0;
+    const hasArtists = artists?.length > 0;
+    const hasSongs = songs?.length > 0;
+
+    const nothingFound = !hasAlbums && !hasArtists && !hasSongs;
 
     return (
         <div className="space-y-4">
@@ -84,11 +96,28 @@ export function SearchPage() {
             </div> :
 
                 <div className="grid gap-2">
-                    {
-                        Array.isArray(results) && results.length ?
-                            results.map((song: TrackType) => <SearchItemCard key={song._id} song={song} />) :
-                            <NoTracksFound />
+                    {hasAlbums && <section>
+                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
+                            {albums.map((album) => (
+                                <AlbumGridCard key={album._id} album={album} />
+                            ))}
+                        </div>
+                    </section>
                     }
+
+                    {hasArtists && <section>
+                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
+                            {artists.map((person) => (
+                                <ArtistCard key={person._id} artist={person} />
+                            ))}
+                        </div>
+                    </section>}
+
+                    {hasSongs && songs.map((song) => (
+                        <SongItemCard key={song._id} song={song} />
+                    ))}
+
+                    {nothingFound && <NoTracksFound />}
                 </div>
             }
         </div>

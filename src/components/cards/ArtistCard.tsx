@@ -23,7 +23,8 @@ export default function ArtistCard({ artist }: ArtistCardProps) {
         />
       </div>
       <h3 className="font-semibold truncate mb-1">{artist.name}</h3>
-      <p className="text-sm text-zinc-600 dark:text-zinc-400">{formatNumbers(artist.followers)} followers</p>
+
+      {artist?.followers && <p className="text-sm text-zinc-600 dark:text-zinc-400">{formatNumbers(artist.followers)} followers</p>}
     </Link>
 
   )

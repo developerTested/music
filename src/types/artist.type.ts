@@ -110,3 +110,9 @@ export type PlayerStateType = {
     hasPrev: boolean;
     hasNext: boolean;
 }
+
+export type SearchType = {
+    artists: ArtistType[],
+    albums: AlbumType[],
+    songs: TrackType[],
+}

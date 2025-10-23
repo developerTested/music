@@ -94,7 +94,7 @@ export function SongItemCard({ song }: SongItemCardProps) {
     return (
         <div
             key={song._id}
-            className="flex items-center gap-4 p-4 hover:bg-gray transition-colors duration-200 group
+            className="flex items-center gap-4 p-1 group
             "
         >
             <div className="relative group">
