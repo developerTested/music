@@ -20,8 +20,9 @@ export function MasterLayout() {
   return (
     <div
       className={cn(
-        "block min-h-screen w-full dark:bg-zinc-950 dark:text-slate-200",
-        "min-h-screen text-zinc-900 dark:text-zinc-100"
+        "block w-full min-h-screen",
+        "dark:bg-zinc-950",
+        "text-zinc-900 dark:text-zinc-100"
       )}
     >
       <Header />
@@ -59,7 +60,7 @@ export function MasterLayout() {
           onClose={toggleDialog}
           size="lg"
         >
-          <Dialog.Content>
+          <Dialog.Content hasCloseButton={true}>
             <LoginForm />
           </Dialog.Content>
         </Dialog>

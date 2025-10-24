@@ -1,6 +1,7 @@
 import React, { forwardRef, type Ref } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/utilities/helper";
+import { MdError } from "react-icons/md";
 
 const inputStyles = cva(["block rounded"], {
     variants: {
@@ -21,6 +22,7 @@ type InputProps = VariantProps<typeof inputStyles> & React.ComponentProps<"input
     startIcon?: React.ReactElement,
     endIcon?: React.ReactElement,
     fullWidth?: boolean,
+    hasError?: boolean,
 }
 
 export const Input = forwardRef(
@@ -33,6 +35,7 @@ export const Input = forwardRef(
             startIcon,
             endIcon,
             fullWidth = true,
+            hasError = false,
             ...props
         }: InputProps,
         ref: Ref<HTMLInputElement>
@@ -52,6 +55,17 @@ export const Input = forwardRef(
                 )}
             />
 
+            {/* Error Icon */}
+            {hasError && (
+                <span className={cn(
+                    "absolute top-1/2 -translate-y-1/2 pointer-events-none",
+                    endIcon ? "right-8" : "right-3",
+                    "text-red-600"
+                )}
+                >
+                    <MdError />
+                </span>
+            )}
 
             {/* Start Icon */}
             {startIcon && (

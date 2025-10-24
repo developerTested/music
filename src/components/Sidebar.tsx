@@ -14,17 +14,17 @@ const menuItems = [
         url: "/home",
         icon: <MdHome className="w-6 h-6" />,
     },
-    {
-        title: "Explore",
-        url: "/explore",
-        icon: <MdExplore className="w-6 h-6" />,
-    },
-    {
-        title: "Liked Songs",
-        url: "/favorites",
-        icon: <FaHeart className="w-6 h-6" />,
-        divider: true,
-    },
+    // {
+    //     title: "Explore",
+    //     url: "/explore",
+    //     icon: <MdExplore className="w-6 h-6" />,
+    // },
+    // {
+    //     title: "Liked Songs",
+    //     url: "/favorites",
+    //     icon: <FaHeart className="w-6 h-6" />,
+    //     divider: true,
+    // },
     {
         title: "Top Charts",
         url: "/top-charts",

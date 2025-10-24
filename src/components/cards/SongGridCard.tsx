@@ -4,6 +4,8 @@ import type { TrackType } from "@/types/artist.type"
 import { FaImage } from "react-icons/fa"
 import { Button } from "../forms"
 import { MdPause, MdPlayArrow } from "react-icons/md"
+import { Link } from "react-router-dom"
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 type SongGridCardProps = {
     song?: TrackType,
@@ -43,11 +45,15 @@ export default function SongGridCard({ song }: SongGridCardProps) {
             className="p-4 transition-all duration-200 group cursor-pointer rounded-lg"
         >
             <div className="relative mb-2">
-                <img
-                    src={song.cover}
-                    alt={song.title}
-                    className="w-full aspect-square object-cover rounded-lg group-hover:brightness-75 transition-all"
-                />
+                <Link
+                    to={`/song/${song._id}`}
+                >
+                    <LazyLoadImage
+                        alt={song?.title}
+                        src={song?.cover}
+                        className="w-full aspect-square object-cover rounded-lg group-hover:brightness-75 transition-all"
+                    />
+                </Link>
 
                 <Button variant="icon" size="icon" onClick={() => handlePlay(song)} className="absolute bottom-2 right-2  opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-200">
                     {currentTrack?.title === song.title && isPlaying ?

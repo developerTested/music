@@ -1,7 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { AdminLayout, MasterLayout } from "./layouts";
 import DashBoard from "./pages/admincp/DashBoard";
-import { ErrorPage, ExplorePage, HomePage, ProtectedPage, SearchPage, TopChartPage } from "./pages";
+import { ErrorPage, ExplorePage, HomePage, LandingPage, ProtectedPage, SearchPage, TopChartPage } from "./pages";
 import { ArtistProfile, ManageArtists } from "./pages/admincp/artists";
 import { ManageSongs, AddSongPage, EditSongPage } from "./pages/admincp/songs";
 import { ArtistListPage, ArtistPage } from "./pages/artists";
@@ -12,7 +12,7 @@ import { LoginPage, SignupPage } from "./pages/auth";
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <MasterLayout />,
+        element: <LandingPage />,
         errorElement: <ErrorPage />,
     },
     {
@@ -23,14 +23,6 @@ const router = createBrowserRouter([
             {
                 path: "/home",
                 element: <HomePage />,
-            },
-            {
-                path: "/explore",
-                element: <ExplorePage />,
-            },
-            {
-                path: "/favorites",
-                element: <LikedSongPage />,
             },
             {
                 path: "/top-charts",

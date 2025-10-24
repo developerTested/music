@@ -1,12 +1,15 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { Input } from './Input'
 import { CiSearch } from 'react-icons/ci';
 import { Button } from './Button';
 import { Form } from 'react-router-dom';
+import type { SearchType } from '@/types/artist.type';
 
 export function SearchForm() {
 
     const searchRef = useRef(null);
+
+    const [results, setResults] = useState<SearchType | null>(null)
 
     return (
         <div className='relative w-full xl:w-500 m-auto group border bg-slate-100 dark:bg-zinc-800 focus-within:bg-white focus-within:shadow border-white dark:border-zinc-900 dark:text-white rounded-full'>

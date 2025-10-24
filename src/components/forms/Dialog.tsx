@@ -66,7 +66,9 @@ const Dialog = ({ open, onClose, children, className, size }: DialogProps) => {
         }
 
         return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
+            if (open) {
+                document.removeEventListener("mousedown", handleClickOutside);
+            }
         };
     }, [open, onClose]);
 
@@ -156,9 +158,11 @@ const DialogFooter = ({ onDelete, submitVariant = "danger" }: DialogFooterProps)
     );
 };
 
-type DialogContentProps = React.ComponentPropsWithRef<"div">
+type DialogContentProps = React.ComponentPropsWithRef<"div"> & {
+    hasCloseButton?: boolean,
+}
 
-const DialogContent = ({ children, className }: DialogContentProps) => {
+const DialogContent = ({ children, className, hasCloseButton = false }: DialogContentProps) => {
     const { onClose, ref } = useDialog();
 
     return (
@@ -166,12 +170,13 @@ const DialogContent = ({ children, className }: DialogContentProps) => {
             ref={ref}
             className={cn("bg-white w-full max-w-4xl max-h-[90vh] overflow-y-auto relative", className)}
         >
-            <button
-                onClick={onClose}
-                className="text-gray-500 hover:text-gray-800 text-2xl absolute right-1 top-1"
-            >
-                <MdClose className="size-6" />
-            </button>
+            {hasCloseButton &&
+                <button
+                    onClick={onClose}
+                    className="text-gray-500 hover:text-gray-800 text-2xl absolute right-1 top-1"
+                >
+                    <MdClose className="size-6" />
+                </button>}
 
             {children}
         </div>

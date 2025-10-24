@@ -55,7 +55,7 @@ export function LoginForm() {
                 <p className="text-gray-600 dark:text-zinc-300 text-base mt-2">Log in to continue your musical journey</p>
             </div>
 
-            <Form onSubmit={handleSubmit(onSubmit)} className="flex flex-col items-center gap-4">
+            <Form onSubmit={handleSubmit(onSubmit)} className="flex flex-col items-center gap-4 p-4">
                 <div className="relative w-full grid gap-2">
                     <Label
                         htmlFor="email"
@@ -74,6 +74,7 @@ export function LoginForm() {
                         placeholder="admin@admin.com"
                         className={`${errors.email ? 'border-red-600' : ''}`}
                         startIcon={<FaEnvelope />}
+                        hasError={Boolean(errors.email)}
                     />
 
                     {errors.email && <p className='text-red-600 text-xs my-1'>
@@ -103,6 +104,8 @@ export function LoginForm() {
                             placeholder="Password"
                             className={`${errors.password ? 'border-red-600' : ''}`}
                             startIcon={<FaLock />}
+                            endIcon={<></>}
+                            hasError={Boolean(errors.password)}
                         />
 
                         <div onClick={() => setPasswordShow(!passwordShow)} className="cursor-pointer absolute top-0 bottom-0 right-2 flex items-center justify-center">
@@ -114,7 +117,9 @@ export function LoginForm() {
                     </p>}
                 </div>
 
-                <Button className="w-full">
+                <Button
+                    className="rounded-full w-full"
+                >
                     Login
                 </Button>
             </Form>
