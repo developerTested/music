@@ -22,8 +22,8 @@ const appSlice = createSlice({
             state.darkMode = action.payload;
         },
 
-        setMobileMenu: (state) => {
-            state.mobileMenu = !state.mobileMenu;
+        setMobileMenu: (state, action) => {
+            state.mobileMenu = action.payload;
         },
 
         setMiniMenu: (state, action) => {

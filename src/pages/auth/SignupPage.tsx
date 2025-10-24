@@ -161,7 +161,7 @@ export function SignupPage() {
                 {/* Footer */}
                 <p className="text-center text-base text-gray-600 mt-8">
                     Already have an account?{' '}
-                    <Link to="/login" className="text-black cursor-pointer hover:underline">Log in</Link>
+                    <Link to="/auth/login" className="text-black cursor-pointer hover:underline">Log in</Link>
                 </p>
             </div>
         </div>

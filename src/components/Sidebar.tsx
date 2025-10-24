@@ -1,12 +1,13 @@
-import { MdAlbum, MdExplore, MdHome, MdMusicNote, MdPeople } from "react-icons/md"
+import { Fragment, useCallback, useEffect, useRef } from "react";
+import { MdAlbum, MdHome, MdMenu, MdMusicNote, MdPeople } from "react-icons/md"
 import { IoStatsChartSharp } from "react-icons/io5";
 import { NavLink } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@/hooks";
-import { twMerge } from "tailwind-merge";
-import { Fragment, useCallback, useEffect, useRef } from "react";
 import { setMobileMenu } from "@/redux/slices/appSlice";
-import { FaHeart } from "react-icons/fa";
 import Tooltip from "./Tooltip";
+import { cn } from "@/utilities/helper";
+import { Logo } from "./Logo";
+import { Button } from "./forms";
 
 const menuItems = [
     {
@@ -59,7 +60,7 @@ export function Sidebar() {
 
     const handleClickOutside = useCallback((e: MouseEvent) => {
         if (sidebarRef.current && !sidebarRef.current.contains(e.target as Node)) {
-            dispatch(setMobileMenu())
+            dispatch(setMobileMenu(false))
         }
     }, [sidebarRef, dispatch]);
 
@@ -75,26 +76,35 @@ export function Sidebar() {
     return (
         <div
             ref={sidebarRef}
-            className={twMerge(`
-    fixed
-    top-0
-    left-0 
-    text-sm transition-all 
-    duration-300
-    z-50
-    w-60
-    h-full
-    pt-16
-    ${mobileMenu ? "translate-x-0" : "-translate-x-60"}
-    ${miniMenu ? 'md:w-20 translate-x-0' : "w-60"}
-    ${!mobileMenu && !miniMenu ? "lg:translate-x-0" : ""}
-    bg-inherit
-    `)}
+            className={cn(
+                "fixed top-0 left-0 z-50",
+                "text-sm",
+                "transition-all duration-300",
+                "w-60 h-full",
+                "border-b dark:border-zinc-900",
+                "shadow-sm",
+                "bg-white dark:bg-zinc-900",
+                mobileMenu ? "translate-x-0 z-100" : "-translate-x-60",
+                miniMenu ? 'md:w-20 translate-x-0' : "w-60",
+                !mobileMenu && !miniMenu && "lg:translate-x-0",
+            )}
 
         >
+            <div className="flex items-center gap-2 p-2 mb-2">
+                <Button
+                    // onClick={mobileMenuToggle}
+                    variant="icon"
+                    size="icon"
+                    className="mobile-menu-toggle"
+                >
+                    <MdMenu className="size-6" />
+                </Button>
+
+                <Logo />
+            </div>
+
             <div className="menu-container flex flex-col pr-2 py-2">
                 {menuItems.map((menu, i) => <Fragment key={i}>
-
                     <NavLink
                         key={i}
                         to={menu.url}

@@ -138,7 +138,7 @@ export function LoginPage() {
 
                 <p className='text-center my-4'>
                     Don't have an account?
-                    <Link to="/register" className='mx-2'>
+                    <Link to="/auth/register" className='mx-2'>
                         Sign up
                     </Link>
                 </p>

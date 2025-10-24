@@ -120,8 +120,8 @@ export function SongItemCard({ song }: SongItemCardProps) {
                 <div onClick={() => handlePlay(song)} className="font-semibold truncate mb-1">{song.title}</div>
                 <div className="text-sm text-zinc-600 dark:text-zinc-400  truncate">{song.artist?.name}</div>
             </div>
-            <div className="text-zinc-600 dark:text-zinc-400  text-sm">{formatDuration(song.duration)}</div>
-            <div className="flex gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+            <div className="px-2 py-1 bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 text-sm rounded-full">{formatDuration(song.duration)}</div>
+            <div className="flex items-center gap-3">
                 <Button variant="icon" size="icon" onClick={() => handlePlay(song)}>
 
                     {currentTrack?.title === song.title && isPlaying ?

@@ -14,7 +14,7 @@ export function ProtectedPage({ role }: ProtectedPageProps) {
     }
 
     if (!user) {
-        return <Navigate to="/login" replace />;
+        return <Navigate to="/auth/login" replace />;
     }
 
     if (role && user.role !== role) {

@@ -14,6 +14,7 @@ import Tooltip from "./Tooltip";
 import { useCallback, useLayoutEffect } from "react";
 import Avatar from "./Avatar";
 import { Dropdown, DropdownContent, DropdownHeader, DropdownItem, DropdownSeparator, DropdownTrigger } from "./Dropdown";
+import { cn } from "@/utilities/helper";
 
 export function Header() {
 
@@ -51,13 +52,23 @@ export function Header() {
 
     // Mobile Menu
     const mobileMenuToggle = useCallback(() => {
+
+        const newState = !mobileMenu;
+
+
         dispatch(setMiniMenu(false));
-        dispatch(setMobileMenu());
-    }, [dispatch])
+        console.log("before", mobileMenu, newState);
+
+        dispatch(setMobileMenu(newState));
+
+        
+        console.log("after", mobileMenu, newState);
+
+    }, [dispatch, mobileMenu])
 
     // Mini Menu
     const miniMenuToggle = useCallback(() => {
-        dispatch(setMobileMenu());
+        dispatch(setMobileMenu(false));
         dispatch(setMiniMenu(!miniMenu));
     }, [dispatch, miniMenu])
 
@@ -96,18 +107,16 @@ export function Header() {
     }, [handleResize]);
 
     return (
-        <div className="
-        header
-        flex
-        items-center
-        justify-between
-        z-100 
-        sticky 
-        top-0
-        w-full
-        p-2
-        backdrop-blur-xl
-        ">
+        <div className={cn(
+            "header",
+            "flex items-center justify-between",
+            "fixed top-0 left-0 right-0 z-100",
+            "w-full",
+            "p-2",
+            "bg-white dark:bg-zinc-900",
+            "border-b dark:border-zinc-900",
+            "shadow-sm"
+        )}>
 
             <div className="flex items-center gap-2">
 
@@ -185,14 +194,16 @@ export function Header() {
                                 onClick={handleLogout}
                                 endIcon={<ImExit />}
                             >
-                                Logout
+                                <span className="hidden md:block">
+                                    Logout
+                                </span>
                             </Button>
                         </div>
                     </div>
                     :
 
                     <div className="flex items-center gap-2">
-                        <Link to="/login" className="px-4 py-2 bg-black text-white rounded-md">
+                        <Link to="/auth/login" className="px-4 py-2 bg-black text-white rounded-md">
                             Login
                         </Link>
                     </div>

@@ -1,12 +1,12 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { AdminLayout, MasterLayout } from "./layouts";
 import DashBoard from "./pages/admincp/DashBoard";
-import { ErrorPage, ExplorePage, HomePage, LandingPage, ProtectedPage, SearchPage, TopChartPage } from "./pages";
+import { ErrorPage, HomePage, LandingPage, ProtectedPage, SearchPage, TopChartPage } from "./pages";
 import { ArtistProfile, ManageArtists } from "./pages/admincp/artists";
 import { ManageSongs, AddSongPage, EditSongPage } from "./pages/admincp/songs";
 import { ArtistListPage, ArtistPage } from "./pages/artists";
 import { AlbumListPage, AlbumPage } from "./pages/albums";
-import { LikedSongPage, SongListPage, SongPage } from "./pages/songs";
+import { SongListPage, SongPage } from "./pages/songs";
 import { LoginPage, SignupPage } from "./pages/auth";
 
 const router = createBrowserRouter([
@@ -14,6 +14,7 @@ const router = createBrowserRouter([
         path: "/",
         element: <LandingPage />,
         errorElement: <ErrorPage />,
+        index: true,
     },
     {
         path: "/",
@@ -59,17 +60,17 @@ const router = createBrowserRouter([
         ]
     },
     {
-        path: "/",
+        path: "/auth",
         errorElement: <ErrorPage />,
         element: <ProtectedPage role="guest" />,
         children: [
             {
-                path: "/login",
+                path: "/auth/login",
                 errorElement: <ErrorPage />,
                 element: <LoginPage />,
             },
             {
-                path: "/register",
+                path: "/auth/register",
                 errorElement: <ErrorPage />,
                 element: <SignupPage />,
             },
