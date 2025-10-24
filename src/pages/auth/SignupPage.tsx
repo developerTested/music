@@ -35,7 +35,7 @@ export function SignupPage() {
 
                     reset()
 
-                    navigate("/login")
+                    navigate("/auth/login")
 
                     return data.message || "Account created Successful"
                 }

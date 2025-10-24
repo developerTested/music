@@ -32,14 +32,14 @@ export function Header() {
 
                     dispatch(resetUser());
 
-                    navigate("/login")
+                    navigate("/auth/login")
 
-                    return data.message || "Account created Successful"
+                    return data.message || "Logout Successful"
                 }
             },
             error: {
                 render: ({ data }: ToastErrorType) => {
-                    return data.message || "Something went wrong while creating your account!"
+                    return data.message || "Something went wrong while logging you out!"
                 }
             }
         })
