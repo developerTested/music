@@ -4,6 +4,7 @@ import { HiOutlineMenu, HiX, HiOutlineDownload, HiOutlineSearch } from 'react-ic
 import { BsHeadphones } from 'react-icons/bs';
 import { IoMdMic } from 'react-icons/io';
 import { MdHighQuality } from 'react-icons/md';
+import { Link } from 'react-router-dom';
 
 export const LandingPage = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -75,12 +76,12 @@ export const LandingPage = () => {
           >
             {darkMode ? <FaSun className="text-yellow-300" /> : <FaMoon className="text-purple-700" />}
           </button>
-          <button className={`px-4 py-2 rounded-full ${darkMode ? 'bg-purple-600 hover:bg-purple-700' : 'bg-purple-500 hover:bg-purple-600'} transition`}>
+          <Link to={`/auth/register`} className={`px-4 py-2 rounded-full ${darkMode ? 'bg-purple-600 hover:bg-purple-700' : 'bg-purple-500 hover:bg-purple-600'} transition`}>
             Sign Up
-          </button>
-          <button className={`px-4 py-2 rounded-full border ${darkMode ? 'border-purple-400 hover:bg-purple-900' : 'border-purple-600 hover:bg-purple-100'} transition`}>
+          </Link>
+          <Link to={`/auth/login`} className={`px-4 py-2 rounded-full border ${darkMode ? 'border-purple-400 hover:bg-purple-900' : 'border-purple-600 hover:bg-purple-100'} transition`}>
             Login
-          </button>
+          </Link>
         </div>
         
         {/* Mobile Menu Button */}
@@ -156,11 +157,11 @@ export const LandingPage = () => {
           </div>
           
           <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-            <button className={`px-8 py-3 rounded-full flex items-center justify-center ${darkMode ? 
+            <Link to={`/home`} className={`px-8 py-3 rounded-full flex items-center justify-center ${darkMode ? 
               'bg-purple-600 hover:bg-purple-700' : 
-              'bg-purple-500 hover:bg-purple-600'} transition`}>
+              'bg-purple-500 hover:bg-purple-600 text-white'} transition`}>
               <FaPlay className="mr-2" /> Start Listening
-            </button>
+            </Link>
             <button className={`px-8 py-3 rounded-full border ${darkMode ? 
               'border-purple-400 hover:bg-purple-900' : 
               'border-purple-500 hover:bg-purple-100'} transition flex items-center justify-center`}>
