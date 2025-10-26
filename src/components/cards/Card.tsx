@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react'
+import React from 'react'
 import { cn } from '@/utilities/helper'
 
 export const Card = React.forwardRef<
@@ -8,7 +8,7 @@ export const Card = React.forwardRef<
         <div
             ref={ref}
             className={cn(
-                "block border rounded-lg shadow-sm",
+                "block bg-white dark:bg-zinc-800 border dark:border-zinc-800 rounded-lg shadow-sm",
                 className
             )}
             {...props}
@@ -42,7 +42,7 @@ export const CardHeader = React.forwardRef<
             )}
             {...props}
         />
-    ))    
+    ))
 
 export const CardFooter = React.forwardRef<
     HTMLDivElement,
