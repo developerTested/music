@@ -32,7 +32,7 @@ export type AvatarProps = VariantProps<typeof avatarStyles> & {
   imageClassName?: string,
 }
 
-export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(({
+const Avatar = forwardRef<HTMLDivElement, AvatarProps>(({
   src,
   alt,
   size,

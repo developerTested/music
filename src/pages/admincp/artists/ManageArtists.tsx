@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
-export function ManageArtists() {
+export default function ManageArtists() {
 
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
@@ -21,9 +21,6 @@ export function ManageArtists() {
 
         try {
             const response = await artistService.fetchAll();
-
-            console.log(response);
-
 
             setArtistList(response);
         } catch (error) {
@@ -65,7 +62,7 @@ export function ManageArtists() {
 
             {errorMessage && <Alert message={errorMessage} />}
 
-            {/* <ArtistTable loading={loading} artists={artistList} /> */}
+            <ArtistTable loading={loading} artists={artistList} />
         </div>
     )
 }

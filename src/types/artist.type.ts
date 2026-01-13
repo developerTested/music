@@ -49,6 +49,7 @@ export type TrackType = {
     youtubeVideoId?: string,
     createdAt: string,
     updatedAt: string,
+    plays?: number,
 }
 
 

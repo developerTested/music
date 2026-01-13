@@ -6,8 +6,8 @@ import { useAppDispatch, useAppSelector } from "@/hooks";
 import { setMobileMenu } from "@/redux/slices/appSlice";
 import Tooltip from "./Tooltip";
 import { cn } from "@/utilities/helper";
-import { Logo } from "./Logo";
 import { Button } from "./forms";
+import Logo from "./Logo";
 
 const menuItems = [
     {
@@ -49,7 +49,7 @@ const menuItems = [
     },
 ]
 
-export function Sidebar() {
+export default function Sidebar() {
 
     const { miniMenu, mobileMenu } = useAppSelector(state => state.app);
 
@@ -77,13 +77,13 @@ export function Sidebar() {
         <div
             ref={sidebarRef}
             className={cn(
-                "fixed top-0 left-0 z-50",
+                "fixed z-50",
                 "text-sm",
                 "transition-all duration-300",
                 "w-60 h-full",
                 "border-b dark:border-zinc-900",
                 "shadow-sm",
-                "bg-white dark:bg-zinc-900",
+                "bg-white dark:bg-zinc-950",
                 mobileMenu ? "translate-x-0 z-100" : "-translate-x-60",
                 miniMenu ? 'md:w-20 translate-x-0' : "w-60",
                 !mobileMenu && !miniMenu && "lg:translate-x-0",
@@ -114,7 +114,7 @@ export function Sidebar() {
                     gap-4
                     px-4
                     py-2.5
-                    ${isActive ? "bg-zinc-800 dark:bg-zinc-900 text-white font-semibold" : ""}
+                    ${isActive ? "bg-zinc-800 dark:bg-zinc-800 text-white font-semibold" : ""}
                     hover:bg-zinc-800
                     dark:hover:bg-zinc-900
                     hover:text-white

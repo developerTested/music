@@ -6,7 +6,6 @@ import { CiSearch } from "react-icons/ci"
 import Alert from "../Alert"
 import { MUSIC_API } from "@/utilities/api"
 import { FaChevronDown, FaChevronUp } from "react-icons/fa"
-import type { GenreType } from "@/types/artist.type"
 
 const selectStyles = cva("relative flex items-center gap-2 rounded ", {
     variants: {
@@ -25,12 +24,15 @@ const selectStyles = cva("relative flex items-center gap-2 rounded ", {
 })
 
 
-type OptionBase = {
-    _id: string;
+export type SelectedItemType = { _id: string }
+
+export type OptionBase = SelectedItemType & {
     name?: string;
     title?: string;
     [key: string]: string | number | boolean | undefined;
 };
+
+type cloneElementType = React.ComponentProps<"div"> | React.ComponentProps<"option">;
 
 type SelectProps<T extends OptionBase = OptionBase> =
     VariantProps<typeof selectStyles> &
@@ -38,15 +40,15 @@ type SelectProps<T extends OptionBase = OptionBase> =
         placeholderText?: string;
         url: string;
         options?: T[];
-        renderItem?: (item: T) => React.ReactElement;
+        renderItem?: (item: T,) => React.ReactElement;
         placeholder?: string;
         value: string,
-        onChange?: (selected: T) => void;
+        onSelect: (item: T) => void;
     };
 
 export function Select({
     value,
-    onChange,
+    onSelect,
     variant,
     className,
     placeholderText = "Select",
@@ -69,7 +71,7 @@ export function Select({
     };
 
     const handleChange = (item: OptionBase) => {
-        onChange?.(item); // Notify parent (React Hook Form)
+        onSelect(item); // Notify parent (React Hook Form)
         setOpen(false);   // Close dropdown after selection
         setSearchInput(""); // Clear search
         setSelected(item);
@@ -86,7 +88,7 @@ export function Select({
         }
 
         console.log(value, genreArr, found);
-        
+
 
     }, [value, optionsData]);
 
@@ -175,17 +177,25 @@ export function Select({
                                 <div className="p-4 text-sm text-gray-500">Loading...</div>
                             ) : filteredOptions.map((opt) => (
                                 <div key={opt._id} className="select-option">
-                                    {renderItem ? (
-                                        React.isValidElement(renderItem(opt)) ? (
-                                            React.cloneElement(renderItem(opt) as React.ReactElement, {
-                                                onClick: () => handleChange(opt),
-                                                className: cn("select-item", renderItem(opt).props.className),
-                                            })
-                                        ) : null
-                                    ) : (
+                                    {renderItem ? (() => {
+                                        const item = renderItem(opt);
+                                        if (React.isValidElement(item)) {
+                                            const element = item as React.ReactElement<cloneElementType>;
+                                            return React.cloneElement(element, {
+                                                ...element.props,
+                                                onClick: (e: React.MouseEvent<HTMLDivElement, MouseEvent> & React.MouseEvent<HTMLOptionElement, MouseEvent>) => {
+                                                    element.props.onClick?.(e);
+                                                    handleChange(opt);
+                                                },
+                                                className: cn("select-item", element.props.className),
+                                            });
+                                        }
+                                        return null;
+                                    })() : (
                                         <SelectItem
                                             active={value === opt._id}
-                                            onClick={() => handleChange(opt)}
+                                            item={opt}
+                                            onSelect={() => handleChange(opt)}
                                             className="px-4 py-2"
                                         >
                                             {opt.name ?? opt.title}
@@ -204,22 +214,29 @@ export function Select({
 }
 
 
-type selectItemProps = React.ComponentProps<"div"> & {
-    startIcon?: React.ReactNode
-    endIcon?: React.ReactNode,
-    active?: boolean,
-}
+type SelectItemProps<T> = React.ComponentProps<"div"> & {
+    item: T;
+    onSelect: (item: T) => void;
+    startIcon?: React.ReactNode;
+    endIcon?: React.ReactNode;
+    active?: boolean;
+};
 
-export const SelectItem = ({
+export const SelectItem = <T,>({
+    item,
+    onSelect,
     className,
     children,
     startIcon,
     endIcon,
     active,
-    ...props
-}: selectItemProps) => {
+
+    ...rest
+}: SelectItemProps<T>) => {
     return (
         <div
+            {...rest}
+            onClick={() => onSelect(item)}
             role="option"
             tabIndex={0}
             className={cn(
@@ -237,7 +254,6 @@ export const SelectItem = ({
                     (e.currentTarget as HTMLElement).click();
                 }
             }}
-            {...props}
         >
             {startIcon && <span className="flex-shrink-0">{startIcon}</span>}
             {children}

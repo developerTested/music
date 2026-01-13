@@ -4,7 +4,7 @@ import { CiSearch } from 'react-icons/ci';
 import { Button } from './Button';
 import { Form } from 'react-router-dom';
 
-export function SearchForm() {
+export default function SearchForm() {
 
     const searchRef = useRef(null);
 

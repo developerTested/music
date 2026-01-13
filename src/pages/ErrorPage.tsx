@@ -1,7 +1,7 @@
 import { MdMusicNote } from 'react-icons/md';
 import { Link, isRouteErrorResponse, useRouteError } from 'react-router-dom';
 
-export function ErrorPage() {
+export default function ErrorPage() {
 
     const error = useRouteError() as Error;
 

@@ -1,4 +1,4 @@
-import  { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import ArtistForm from './ArtistForm';
 import type { ArtistType } from '@/types/artist.type';
 import artistService from '@/service/ArtistService';
@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom';
 import { AxiosError } from 'axios';
 import Alert from '@/components/Alert';
 
-export function ArtistProfile() {
+export default function ArtistProfile() {
 
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null)

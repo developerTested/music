@@ -1,10 +1,15 @@
+import { lazy, Suspense, useEffect } from 'react';
 import { Outlet, useLocation } from "react-router-dom";
-import { Footer, Header, MusicPlayer, Sidebar } from "../components";
 import { useAppDispatch, useAppSelector } from "@/hooks";
 import { cn } from "@/utilities/helper";
-import { Dialog, LoginForm } from "@/components/forms";
 import { setShowLoginForm } from "@/redux/slices/appSlice";
-import { useEffect } from "react";
+import Dialog from '@/components/forms/Dialog/Dialog';
+import Spinner from '@/components/Spinner';
+import Footer from '@/components/Footer';
+import Sidebar from '@/components/Sidebar';
+import Header from '@/components/Header';
+const MusicPlayer = lazy(() => import('@/components/MusicPlayer'));
+const LoginForm = lazy(() => import('@/components/forms/LoginForm'));
 
 export function MasterLayout() {
 
@@ -60,9 +65,10 @@ export function MasterLayout() {
         </main>
       </div>
 
-      <Footer />
-
-      <MusicPlayer />
+      <Suspense fallback={<Spinner size="xl" />}>
+        <Footer />
+        <MusicPlayer />
+      </Suspense>
 
       {!user &&
         <Dialog

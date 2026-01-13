@@ -11,7 +11,7 @@ import { useAppDispatch, useAppSelector } from "@/hooks";
 import { setGenreList } from "@/redux/slices/musicSlice";
 import NoTracksFound from "@/components/NoTracksFound";
 
-export function SongListPage() {
+export default function SongListPage() {
 
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [loading, setLoading] = useState(false);
@@ -69,12 +69,17 @@ export function SongListPage() {
     };
   }, [fetchSongs]);
 
+  if (loading) {
+    return (
+      <h1>Loading...</h1>
+    )
+  }
 
   return (
     <div className="flex flex-col gap-4">
 
       {errorMessage && <Alert message={errorMessage} />}
-      
+
       {Array.isArray(genreList) &&
         <div className="flex-1 w-full overflow-hidden">
           <div className="genre-selector flex items-center gap-2 overflow-x-auto whitespace-nowrap scrollbar-hide pb-4">

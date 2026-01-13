@@ -1,5 +1,4 @@
 import z from "zod";
-import moment from "moment";
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 import { MAX_FILE_SIZE } from "./constants";
@@ -101,49 +100,6 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 /**
- * Covert date to time ago format
- * @param date 
- * @returns 
- */
-export function formatDate(date: string, format = "ll") {
-
-    if (!date) return "Bad date";
-
-    return moment(date).format(format);
-}
-
-/**
- * Covert date to time ago format
- * @param date 
- * @returns 
- */
-export function timeAgo(date: string) {
-
-    if (!date) return "Bad date";
-
-    return moment(date).fromNow();
-}
-
-/**
- * Format duration to minutes, hours text format
- * @param time 
- * @returns String
- */
-export function formatDuration(time?: number) {
-
-    if (!time) {
-        return "00:00";
-    }
-    const date = moment()
-        .startOf("day")
-        .seconds(time);
-
-    const duration = time > 3600 ? date.format("hh:mm:ss") : date.format('mm:ss');
-
-    return duration;
-}
-
-/**
  * Convert number to 1K, 1M, 1B, 1T, 1P, 1E, 1Z, y
  * @param num 
  * @returns 
@@ -166,4 +122,40 @@ export function formatNumbers(num?: number) {
     }).format(num / Math.pow(1000, unitIndex + 1));
 
     return formattedNumber + units[unitIndex];
+}
+
+
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+import duration from "dayjs/plugin/duration";
+import localizedFormat from "dayjs/plugin/localizedFormat";
+
+dayjs.extend(relativeTime);
+dayjs.extend(duration);
+dayjs.extend(localizedFormat);
+
+/**
+ * Format date using localized format
+ */
+export function formatDate(date: string, format = "ll") {
+    if (!date) return "Bad date";
+    return dayjs(date).format(format);
+}
+
+/**
+ * Convert date to "time ago" format
+ */
+export function timeAgo(date: string) {
+    if (!date) return "Bad date";
+    return dayjs(date).fromNow();
+}
+
+/**
+ * Format duration to mm:ss or hh:mm:ss
+ */
+export function formatDuration(time?: number) {
+    if (!time) return "00:00";
+
+    const dur = dayjs.duration(time, "seconds");
+    return time > 3600 ? dur.format("HH:mm:ss") : dur.format("mm:ss");
 }

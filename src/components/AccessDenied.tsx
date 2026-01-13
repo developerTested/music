@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 
-export function AccessDenied() {
+export default function AccessDenied() {
     return (
         <div className={`w-full h-screen flex items-center justify-center overflow-hidden`}>
             <div className="m-auto text-center flex flex-col items-center gap-4">

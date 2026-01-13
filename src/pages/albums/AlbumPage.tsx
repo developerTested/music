@@ -1,6 +1,4 @@
-import React from 'react'
-
-export function AlbumPage() {
+export default function AlbumPage() {
   return (
     <div>AlbumPage</div>
   )

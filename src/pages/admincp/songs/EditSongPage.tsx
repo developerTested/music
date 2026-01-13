@@ -1,10 +1,10 @@
+import { useEffect, useState } from 'react'
 import type { TrackType } from '@/types/artist.type'
-import React, { useEffect, useState } from 'react'
-import { SongForm } from './SongForm'
 import { useParams } from 'react-router-dom'
 import songService from '@/service/SongService'
+import SongForm from './SongForm'
 
-export function EditSongPage() {
+export default function EditSongPage() {
 
     const [song, setSong] = useState<TrackType | null>(null)
 

@@ -3,12 +3,12 @@ import { SongItemCard } from "@/components/cards";
 import type { ArtistType, TrackType } from "@/types/artist.type";
 import { useParams } from "react-router-dom";
 import artistService from "@/service/ArtistService";
-import { FollowButton } from "@/components";
 import { FaUserPlus } from "react-icons/fa";
 import { useAppSelector } from "@/hooks";
 import NoTracksFound from "@/components/NoTracksFound";
+import FollowButton from "@/components/FollowButton";
 
-export function ArtistPage() {
+export default function ArtistPage() {
 
     const { artistId } = useParams();
 

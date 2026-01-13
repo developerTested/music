@@ -1,25 +1,25 @@
+import { useCallback, useLayoutEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Button, SearchForm } from "./forms";
-import { Logo } from "./Logo";
-import { MdLightMode, MdMenu } from "react-icons/md";
-import { BsMoonStarsFill } from "react-icons/bs";
-import { useAppDispatch, useAppSelector } from "@/hooks";
-import { setDarkMode, setMiniMenu, setMobileMenu } from "@/redux/slices/appSlice";
-import { toast } from "react-toastify";
-import authService from "@/service/AuthService";
+import { Button } from "./forms";
 import type { ToastErrorType, ToastResponseType } from "@/types/api";
+import Logo from "./Logo";
+import Avatar from "./Avatar";
+import authService from "@/service/AuthService";
+import { toast } from "react-toastify";
 import { resetUser } from "@/redux/slices/authSlice";
 import { ImExit } from "react-icons/im";
-import Tooltip from "./Tooltip";
-import { useCallback, useLayoutEffect } from "react";
-import Avatar from "./Avatar";
 import { Dropdown, DropdownContent, DropdownHeader, DropdownItem, DropdownSeparator, DropdownTrigger } from "./Dropdown";
 import { cn } from "@/utilities/helper";
+import SearchForm from "./forms/SearchForm";
+import { useAppDispatch, useAppSelector } from "@/hooks";
+import { setMiniMenu, setMobileMenu } from "@/redux/slices/appSlice";
+import ThemeToggle from "./ThemeToggle";
+import { MdMenu } from "react-icons/md";
 
-export function Header() {
+export default function Header() {
 
     const dispatch = useAppDispatch()
-    const { darkMode, mobileMenu, miniMenu } = useAppSelector(state => state.app)
+    const { mobileMenu, miniMenu } = useAppSelector(state => state.app)
     const { user } = useAppSelector(state => state.auth)
 
     const navigate = useNavigate();
@@ -55,14 +55,9 @@ export function Header() {
 
         const newState = !mobileMenu;
 
-
         dispatch(setMiniMenu(false));
-        console.log("before", mobileMenu, newState);
 
         dispatch(setMobileMenu(newState));
-
-        
-        console.log("after", mobileMenu, newState);
 
     }, [dispatch, mobileMenu])
 
@@ -71,15 +66,6 @@ export function Header() {
         dispatch(setMobileMenu(false));
         dispatch(setMiniMenu(!miniMenu));
     }, [dispatch, miniMenu])
-
-    /**
-     * Theme changer
-     */
-    const handleThemeToggle = () => {
-        dispatch(setDarkMode(!darkMode));
-
-        document.documentElement.classList.toggle("dark")
-    }
 
     /**
      * Handle Menu
@@ -137,7 +123,6 @@ export function Header() {
                 >
                     <MdMenu className="size-6" />
                 </Button>
-
                 <Logo />
             </div>
 
@@ -146,15 +131,7 @@ export function Header() {
 
 
             <div className="flex items-center gap-2">
-                <Tooltip
-                    position="bottom-center"
-                    title={darkMode ? "Light Mode" : "Dark Mode"}
-                >
-                    <Button onClick={handleThemeToggle} variant="icon" size="icon">
-                        {darkMode ? <MdLightMode className="size-6" /> : <BsMoonStarsFill className="size-6" />}
-                    </Button>
-                </Tooltip>
-
+                <ThemeToggle />
 
                 {user ?
                     <div className="flex items-center gap-2">

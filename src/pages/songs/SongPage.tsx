@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { Skeleton } from '@/components'
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import type { TrackType } from '@/types/artist.type';
 import { useParams } from 'react-router-dom';
@@ -10,8 +9,9 @@ import { useAppDispatch, useAppSelector } from '@/hooks';
 import { setCurrentTrack, setIsPlaying, togglePlaying } from '@/redux/slices/playerSlice';
 import { formatDate, formatDuration, formatNumbers } from '@/utilities/helper';
 import { FaCalendar } from 'react-icons/fa';
+import Skeleton from '@/components/Skeleton';
 
-export function SongPage() {
+export default function SongPage() {
   const [loading, setLoading] = useState(false)
   const [song, setSong] = useState<TrackType | null>(null)
   const [activeTab, setActiveTab] = useState('about');
@@ -115,6 +115,16 @@ export function SongPage() {
                     <span>{formatNumbers(song.plays)} plays</span>
                   </>}
                 </div>
+                <Button
+                  variant="icon"
+                  size="icon"
+                  onClick={() => handlePlay(song)}
+                  className="size-14 flex items-center justify-center"
+                >
+                  {currentTrack?.title === song.title && isPlaying ?
+                    <MdPause className="size-6" /> :
+                    <MdPlayArrow className="size-6" />}
+                </Button>
               </div>
             </div>
           </div>
@@ -124,7 +134,7 @@ export function SongPage() {
             <div className="flex gap-6">
               <button
                 onClick={() => setActiveTab('about')}
-                className={`pb-3 px-1 font-medium transition-colors relative outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 rounded ${activeTab === 'about' ? 'text-slate-200 font-bold' : 'text-zinc-600 dark:text-zinc-400'
+                className={`pb-3 px-1 font-medium transition-colors relative outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 rounded ${activeTab === 'about' ? 'font-bold' : 'text-zinc-600 dark:text-zinc-400'
                   }`}
               >
                 About
@@ -134,7 +144,7 @@ export function SongPage() {
               </button>
               <button
                 onClick={() => setActiveTab('lyrics')}
-                className={`pb-3 px-1 font-medium transition-colors relative outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 rounded ${activeTab === 'lyrics' ? 'text-slate-200 font-bold' : 'text-zinc-600 dark:text-zinc-400'
+                className={`pb-3 px-1 font-medium transition-colors relative outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 rounded ${activeTab === 'lyrics' ? 'font-bold' : 'text-zinc-600 dark:text-zinc-400'
                   }`}
               >
                 Lyrics
@@ -179,71 +189,6 @@ export function SongPage() {
           </div>
         </div>
       </div>
-    </div>
-  )
-
-  return (
-    <div>
-      {loading || !song ?
-        <div className="flex gap-4">
-          <Skeleton className="size-60 rounded-lg" />
-
-          <div className="flex-1 grid gap-2">
-            <Skeleton className="w-full h-10" />
-            <Skeleton className="w-full h-8" />
-            <Skeleton className="w-full h-8" />
-
-            <div className="flex items-center gap-4 mt-auto">
-              <Skeleton className="size-14 rounded-full" />
-              <Skeleton className="size-14 rounded-full" />
-            </div>
-          </div>
-        </div> :
-
-        <div className="flex gap-4">
-          <LazyLoadImage
-            alt={song?.title}
-            src={song?.cover}
-            className="size-60 rounded-lg"
-          />
-
-          <div className="flex-1 flex flex-col gap-2">
-            <div className="text-5xl font-bold">
-              {song?.title}
-            </div>
-            <div className="flex items-center gap-4">
-              <span>
-                {song.artist.name}
-              </span>
-              {song.album &&
-                <span>
-                  {song.album.title}
-                </span>}
-              <span>
-                {formatDate(song.releaseDate, "Y")}
-              </span>
-              <span>
-                {formatDuration(song.duration)}
-              </span>
-              <span>
-                {formatNumbers(song.plays)}
-              </span>
-            </div>
-            <div className="actions mt-auto flex items-center gap-4">
-              <Button
-                variant="icon"
-                size="icon"
-                onClick={() => handlePlay(song)}
-                className="size-14"
-              >
-                {currentTrack?.title === song.title && isPlaying ?
-                  <MdPause className="size-6" /> :
-                  <MdPlayArrow className="size-6" />}
-              </Button>
-            </div>
-          </div>
-        </div>
-      }
     </div>
   )
 }

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Button } from '@/components/forms'
 import genreService from '@/service/GenreService';
 import albumService from '@/service/AlbumService';
@@ -11,7 +11,7 @@ import NoTracksFound from '@/components/NoTracksFound';
 import AlbumGridCard from '@/components/cards/AlbumGridCard';
 import Alert from '@/components/Alert';
 
-export function AlbumListPage() {
+export default function AlbumListPage() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [loading, setLoading] = useState(false);
   const [selectedGenre, setSelectedGenre] = useState("All");
@@ -78,7 +78,11 @@ export function AlbumListPage() {
 
 
 
-  
+  if (loading) {
+    return (
+      <h1>Loading...</h1>
+    )
+  }
 
   return (
     <div>

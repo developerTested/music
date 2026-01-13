@@ -18,8 +18,7 @@ export const songSchema = z.object({
             required_error: "Genre is required",
             invalid_type_error: "Genre must be a string",
         })
-        .min(1, { message: "Genre must be 1 or more characters long" })
-        .optional(),
+        .min(1, { message: "Genre must be 1 or more characters long" }),
 
     releaseDate: z
         .string({

@@ -1,6 +1,6 @@
-import { SongForm } from './SongForm'
+import SongForm from './SongForm'
 
-export function AddSongPage() {
+export default function AddSongPage() {
     return (
         <div>
             <div className="flex justify-between items-center mb-6">
@@ -8,7 +8,7 @@ export function AddSongPage() {
                     Create a new Song
                 </h2>
             </div>
-            
+
             <SongForm />
         </div>
     )

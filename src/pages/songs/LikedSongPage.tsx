@@ -1,14 +1,14 @@
-import { SongItemCard } from '@/components/cards';
-import SongGridCard from '@/components/cards/SongGridCard';
+import { useState } from 'react'
+// import { SongItemCard } from '@/components/cards';
+// import SongGridCard from '@/components/cards/SongGridCard';
 import { Button } from '@/components/forms';
 import Tooltip from '@/components/Tooltip';
-import type { TrackType } from '@/types/artist.type';
-import React, { useState } from 'react'
+// import type { TrackType } from '@/types/artist.type';
 import { FaList, FaThLarge } from 'react-icons/fa';
 
-export function LikedSongPage() {
+export default function LikedSongPage() {
     const [layout, setLayout] = useState("grid");
-    const [tracks, setTracks] = useState<TrackType[]>([]);
+    // const [tracks, setTracks] = useState<TrackType[]>([]);
 
     return (
         <div className="">
@@ -26,13 +26,13 @@ export function LikedSongPage() {
                 </Tooltip>
             </section>
             <div className={layout === 'grid' ? 'grid-container' : 'list-container'}>
-                {tracks.map(track =>
+                {/* {tracks.map(track =>
                     layout === 'grid' ? (
                         <SongGridCard key={track._id} song={track} />
                     ) : (
                         <SongItemCard key={track._id} song={track} />
                     )
-                )}
+                )} */}
             </div>
         </div>
     )

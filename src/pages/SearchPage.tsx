@@ -10,7 +10,7 @@ import AlbumGridCard from '@/components/cards/AlbumGridCard';
 import ArtistCard from '@/components/cards/ArtistCard';
 import { SongItemCard } from '@/components/cards';
 
-export function SearchPage() {
+export default function SearchPage() {
 
     const [searchParams] = useSearchParams();
 

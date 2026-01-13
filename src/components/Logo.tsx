@@ -1,8 +1,7 @@
 import { BsHeadphones } from 'react-icons/bs'
-import { MdMusicNote } from 'react-icons/md'
 import { Link } from 'react-router-dom'
 
-export function Logo() {
+export default function Logo() {
 
     return (
         <Link to="/" className="flex items-center justify-center gap-2">

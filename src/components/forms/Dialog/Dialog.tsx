@@ -1,26 +1,10 @@
 import { MdClose } from "react-icons/md"
 import { twMerge } from "tailwind-merge";
 import { cva, type VariantProps } from "class-variance-authority";
-import { Button } from "./Button";
-import React, { createContext, useContext, useEffect, useRef, type RefObject } from "react";
+import { Button } from "../Button";
+import React, { useEffect, useRef } from "react";
 import { cn } from "@/utilities/helper";
-
-type DialogContextType = {
-    open: boolean;
-    onClose: () => void;
-    size?: string;
-    ref?: RefObject<HTMLDivElement | null>,
-};
-
-export const DialogContext = createContext<DialogContextType | undefined>(undefined);
-
-export const useDialog = () => {
-    const context = useContext(DialogContext);
-    if (!context) {
-        throw new Error("useDialog must be used within a DialogProvider");
-    }
-    return context;
-};
+import { DialogContext, useDialog } from "./DialogContext";
 
 const dialogStyles = cva('shadow-lg rounded-lg p-2 z-1030', {
     variants: {
@@ -188,4 +172,4 @@ Dialog.Header = DialogHeader;
 Dialog.Content = DialogContent;
 Dialog.Footer = DialogFooter;
 
-export { Dialog };
+export default Dialog;

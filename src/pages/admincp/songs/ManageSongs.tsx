@@ -1,18 +1,19 @@
-import { Button, Dialog } from "@/components/forms"
+import { Button } from "@/components/forms"
 import type { TrackType } from "@/types/artist.type"
 import { useEffect, useRef, useState } from "react"
 import { FaPause, FaPlus } from "react-icons/fa"
 import { Link } from "react-router-dom"
 import { FaPlay, FaEdit, FaTrash } from 'react-icons/fa';
-import songService from "@/service/SongService"
-import { AxiosError } from "axios"
-import Alert from "@/components/Alert"
-import { formatDate, formatDuration } from "@/utilities/helper"
-import Tooltip from "@/components/Tooltip"
-import { Skeleton } from "@/components"
 import { toast } from "react-toastify"
+import { AxiosError } from "axios"
+import { formatDate, formatDuration } from "@/utilities/helper"
+import songService from "@/service/SongService"
+import Tooltip from "@/components/Tooltip"
+import Alert from "@/components/Alert"
+import Skeleton from "@/components/Skeleton"
+import Dialog from "@/components/forms/Dialog/Dialog"
 
-export function ManageSongs() {
+export default function ManageSongs() {
 
     const [songList, setSongList] = useState<TrackType[]>([])
     const [errorMessage, setErrorMessage] = useState<string | null>(null);

@@ -3,14 +3,14 @@ import authService from '@/service/AuthService';
 import { Form, Link, useNavigate } from 'react-router-dom'
 import { Button, Input } from '@/components/forms'
 import { type SubmitHandler, useForm } from "react-hook-form"
-import { Logo } from '@/components';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'react-toastify';
 import { RegisterSchema, type registerType } from '@/schema/auth.schema';
 import { FaEnvelope, FaEye, FaEyeSlash, FaLock, FaSignature, FaUser } from 'react-icons/fa';
 import type { ToastErrorType, ToastResponseType } from '@/types/api';
+import Logo from '@/components/Logo';
 
-export function SignupPage() {
+export default function SignupPage() {
     const [passwordShow, setPasswordShow] = React.useState(false);
 
 

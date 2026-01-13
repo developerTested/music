@@ -11,7 +11,7 @@ type FollowButtonProps = React.ComponentProps<"button"> & {
     endIcon?: React.ReactElement,
 }
 
-export const FollowButton = ({ artistId, variant, size, ...props }: FollowButtonProps) => {
+export default function FollowButton({ artistId, variant, size, ...props }: FollowButtonProps) {
     const [isFollowing, setIsFollowing] = useState(false);
     const [loading, setLoading] = useState(false);
 

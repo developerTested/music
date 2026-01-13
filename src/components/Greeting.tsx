@@ -1,7 +1,7 @@
 import { useCurrentTime } from '@/hooks';
 import { useState, useEffect } from 'react';
 
-export function Greeting() {
+export default function Greeting() {
     const [greeting, setGreeting] = useState('');
 
     const currentTime = useCurrentTime()

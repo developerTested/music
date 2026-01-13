@@ -3,7 +3,7 @@ import artistService from "@/service/ArtistService"
 import type { ArtistType } from "@/types/artist.type"
 import ArtistCard from "@/components/cards/ArtistCard"
 
-export function ArtistListPage() {
+export default function ArtistListPage() {
 
     const [artists, setArtists,] = useState<ArtistType[]>([])
 

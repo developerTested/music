@@ -1,7 +1,6 @@
 import {type VariantProps, cva } from 'class-variance-authority';
 import { twMerge } from 'tailwind-merge';
 
-
 const spinnerClasses = cva(
     ["flex", "items-center", "justify-center", "animate-spin", "-ml-1", "mr-3", "text-white"],
     {

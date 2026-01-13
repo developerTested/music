@@ -18,7 +18,7 @@ const AnimatedCard = () => {
 };
 
 
-export function ExplorePage() {
+export default function ExplorePage() {
 
 
   return (

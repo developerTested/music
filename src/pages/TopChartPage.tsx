@@ -1,6 +1,4 @@
-import React from 'react'
-
-export function TopChartPage() {
+export default function TopChartPage() {
   return (
     <div>TopChartPage</div>
   )

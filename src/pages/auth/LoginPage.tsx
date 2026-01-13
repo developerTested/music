@@ -4,15 +4,15 @@ import { Form, Link, useNavigate } from 'react-router-dom'
 import { Button, Input, Label } from '@/components/forms'
 import { FaEnvelope, FaEye, FaEyeSlash, FaLock } from 'react-icons/fa';
 import { type SubmitHandler, useForm } from "react-hook-form"
-import { Logo } from '@/components';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'react-toastify';
 import { LoginSchema, type loginType } from '@/schema/auth.schema';
 import type { LoginResponseType, ToastErrorType, ToastResponseType } from '@/types/api';
 import { useAppDispatch } from '@/hooks';
 import { setUser } from '@/redux/slices/authSlice';
+import Logo from '@/components/Logo';
 
-export function LoginPage() {
+export default function LoginPage() {
     const [passwordShow, setPasswordShow] = React.useState(false);
 
     const { handleSubmit, register, formState: { errors } } = useForm<loginType>({

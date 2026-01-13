@@ -70,7 +70,7 @@ export function PlayerProgressBar({ audioElement, playerState }: PlayerProgressB
             <div className="absolute inset-0 bg-zinc-200 dark:bg-zinc-700 overflow-hidden">
                 {/* Progress Fill */}
                 <div
-                    className="h-full bg-zinc-800 dark:bg-zinc-900 transition-all duration-100"
+                    className="h-full bg-zinc-800 dark:bg-zinc-400 transition-all duration-100"
                     style={{ width: `${progressPercentage}%` }}
                 />
             </div>

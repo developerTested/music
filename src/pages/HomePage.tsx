@@ -1,4 +1,4 @@
-import { Greeting } from "@/components";
+import Greeting from "@/components/Greeting";
 import { PlayListCard, SongItemCard } from "@/components/cards";
 import AlbumGridCard from "@/components/cards/AlbumGridCard";
 import ArtistCard from "@/components/cards/ArtistCard";
@@ -12,7 +12,7 @@ type MusicDashboardProps = {
   data: {
     topSongs: TrackType[],
     recentUploads: TrackType[],
-    recentReleases: TrackType[],
+    recentReleases: PlayListType[],
     recentAlbums: AlbumType[],
     mostPlayedSongs: TrackType[],
     featuredArtists: ArtistType[],
@@ -25,7 +25,6 @@ const MusicDashboard = ({ data }: MusicDashboardProps) => {
     recentUploads = [],
     recentReleases = [],
     recentAlbums = [],
-    mostPlayedSongs = [],
     featuredArtists = [],
     recentPlayedSongs = []
   } = data;
@@ -119,7 +118,7 @@ const MusicDashboard = ({ data }: MusicDashboardProps) => {
 
 
 
-export function HomePage() {
+export default function HomePage() {
 
   const { isPending, error, data } = useQuery({
     queryKey: ['home'],

@@ -1,4 +1,3 @@
-import { Avatar } from '@/components';
 import { Button, Input, Label, Select, SelectItem } from '@/components/forms'
 import { Controller, useForm, type SubmitHandler } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -10,19 +9,20 @@ import { FaCamera } from 'react-icons/fa';
 import { MdClose } from 'react-icons/md';
 import { formatDate } from '@/utilities/helper';
 import { useNavigate } from 'react-router-dom';
+import Avatar from '@/components/Avatar';
 
 type SongFormProps = {
   song?: TrackType,
 }
 
-export function SongForm({ song }: SongFormProps) {
+export default function SongForm({ song }: SongFormProps) {
 
   const { control, register, formState: { errors }, handleSubmit, watch, setValue, } = useForm({
     resolver: zodResolver(songSchema),
     defaultValues: {
       title: song?.title || "",
       duration: song?.duration?.toString() || "",
-      genre: song?.genre || "",
+      genre: song?.genre?.pop()?.name || "",
       album: song?.album?._id || "",
       artist: song?.artist?._id || "",
       releaseDate: formatDate(song?.releaseDate || "", "YYYY-MM-DD") || "",
@@ -78,9 +78,9 @@ export function SongForm({ song }: SongFormProps) {
     }
 
     try {
-      const response = await songService.deleteCover(song._id);
+      // const response = await songService.deleteCover(song._id);
       toast.success("Cover deleted successfully");
-      return response;
+      // return response;
     } catch (error) {
       console.error("Delete cover error:", error);
       toast.error("Something went wrong while deleting the cover");
@@ -118,7 +118,7 @@ export function SongForm({ song }: SongFormProps) {
                 render={({ field }) => (
                   <Select
                     value={field.value ?? ""}
-                    onChange={(item) => field.onChange(item?._id)}
+                    onSelect={(item) => field.onChange(item)}
                     url="/genres"
                     placeholderText="Choose genre"
                   />
@@ -139,11 +139,12 @@ export function SongForm({ song }: SongFormProps) {
                 render={({ field }) => (
                   <Select
                     value={field.value ?? ""}
-                    onChange={(item) => field.onChange(item?._id)}
+                    onSelect={(item) => field.onChange(item)}
                     url='/artists'
                     placeholderText='Select Artist'
                     renderItem={(option) => <SelectItem
-                      onClick={(item) => field.onChange(item?._id)}
+                      item={option}
+                      onSelect={() => field.onChange(option)}
                     >
                       <div className="flex items-center gap-2">
                         <Avatar />
@@ -172,24 +173,18 @@ export function SongForm({ song }: SongFormProps) {
 
             <div className="relative grid gap-2">
               <Label>Album</Label>
-              <Select
-                value={song?.album?._id || ""}
-                url='/albums'
-                placeholderText='Select Album'
-                renderItem={(option) => <SelectItem>
-                  <div className="flex items-center gap-2">
-                    <Avatar />
-                    <div className="flex flex-col flex-1">
-                      <div className="text-lg">
-                        {option.title}
-                      </div>
-                      <span className="text-xs">
-                        {option.name}
-                      </span>
-                    </div>
-                  </div>
-                </SelectItem>
-                }
+
+              <Controller
+                name="album"
+                control={control}
+                render={({ field }) => (
+                  <Select
+                    value={song?.album?._id || ""}
+                    onSelect={(album) => field.onChange(album)}
+                    url='/albums'
+                    placeholderText='Select Album'
+                  />
+                )}
               />
 
               {errors.album && <p className='text-red-600 text-xs my-1'>
@@ -271,8 +266,8 @@ export function SongForm({ song }: SongFormProps) {
                       accept="audio/*"
                     />
 
-                    {errors.media && <p className='text-red-600 text-xs my-1'>
-                      {errors.media.message}
+                    {errors.media?.message && <p className='text-red-600 text-xs my-1'>
+                      {String(errors.media.message)}
                     </p>}
                   </div>
             }
@@ -338,7 +333,7 @@ export function SongForm({ song }: SongFormProps) {
               /> */}
 
               {errors.cover && <p className='text-red-600 text-xs my-1'>
-                {errors.cover.message}
+                {String(errors.cover.message)}
               </p>}
             </div>
           </div>
@@ -346,7 +341,7 @@ export function SongForm({ song }: SongFormProps) {
             {song ? "Update" : "Create"} Song
           </Button>
         </div>
-      </form>
-    </div>
+      </form >
+    </div >
   )
 }

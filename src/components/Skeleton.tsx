@@ -1,6 +1,6 @@
 import { cn } from "@/utilities/helper";
 
-export function Skeleton({
+export default function Skeleton({
     className,
     ...props
 }: React.ComponentProps<"div">) {

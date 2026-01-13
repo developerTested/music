@@ -20,7 +20,7 @@ import TrackInfo from './MusicPlayer/TrackInfo';
 import Tooltip from './Tooltip';
 import VolumeControl from './MusicPlayer/VolumeControl';
 
-export function MusicPlayer() {
+export default function MusicPlayer() {
     const progressRef = React.useRef<HTMLDivElement>(null);
     const progressBarRef = React.useRef<HTMLInputElement>(null);
 

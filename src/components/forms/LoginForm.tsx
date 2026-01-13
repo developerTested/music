@@ -13,7 +13,7 @@ import { Label } from './Label';
 import { Input } from './Input';
 import { FaEnvelope, FaEye, FaEyeSlash, FaLock } from 'react-icons/fa';
 
-export function LoginForm() {
+export default function LoginForm() {
 
     const [passwordShow, setPasswordShow] = useState(false);
 
